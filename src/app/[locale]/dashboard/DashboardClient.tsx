@@ -1,7 +1,8 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { useApp } from '@/context/AppContext';
+import { useAuth } from '@/context/AuthContext';
+import { useOrders } from '@/context/OrderContext';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
@@ -32,7 +33,8 @@ const statusColors: Record<string, string> = {
 
 export function DashboardClient() {
   const t = useTranslations('dashboard');
-  const { user, orders, updateUser } = useApp();
+  const { user, updateUser } = useAuth();
+  const { orders } = useOrders();
   const [saved, setSaved] = useState(false);
 
   // Form

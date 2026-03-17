@@ -1,6 +1,6 @@
 'use client';
 
-import { useApp } from '@/context/AppContext';
+import { useCart } from '@/context/CartContext';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { X, Minus, Plus, ShoppingBag } from 'lucide-react';
@@ -14,7 +14,7 @@ interface CartSidebarProps {
 }
 
 export function CartSidebar({ open, onClose }: CartSidebarProps) {
-  const { cart, removeFromCart, updateQuantity, cartTotal } = useApp();
+  const { cart, removeFromCart, updateQuantity, cartTotal } = useCart();
   const t = useTranslations('cart');
 
   return (

@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { useApp } from '@/context/AppContext';
+import { useAuth } from '@/context/AuthContext';
 import { Link } from '@/i18n/navigation';
 import { useRouter } from '@/i18n/navigation';
 import { useState } from 'react';
@@ -11,7 +11,7 @@ import { Label } from '@/components/ui/label';
 
 export function LoginClient() {
   const t = useTranslations('auth');
-  const { login, loginWithGoogle } = useApp();
+  const { login, loginWithGoogle } = useAuth();
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

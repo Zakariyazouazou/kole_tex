@@ -1,12 +1,12 @@
 'use client';
 
-import { useApp } from '@/context/AppContext';
+import { useAuth } from '@/context/AuthContext';
 import { useEffect } from 'react';
 import { useRouter } from '@/i18n/navigation';
 import { useLocale } from 'next-intl';
 
 export function ProtectedRoute({ children }: { children: React.ReactNode }) {
-  const { isAuthenticated } = useApp();
+  const { isAuthenticated } = useAuth();
   const router = useRouter();
   const locale = useLocale();
 

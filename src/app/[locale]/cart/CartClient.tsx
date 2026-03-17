@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { useApp } from '@/context/AppContext';
+import { useCart } from '@/context/CartContext';
 import { Link } from '@/i18n/navigation';
 import { Minus, Plus, Trash2, ShoppingBag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -10,7 +10,7 @@ import { CustomButton } from '@/components/ui/CustomButton';
 
 export function CartClient() {
   const t = useTranslations('cart');
-  const { cart, removeFromCart, updateQuantity, cartTotal, cartCount } = useApp();
+  const { cart, removeFromCart, updateQuantity, cartTotal, cartCount } = useCart();
 
   const shipping = cartTotal >= 50 ? 0 : 5.99;
   const total = cartTotal + shipping;

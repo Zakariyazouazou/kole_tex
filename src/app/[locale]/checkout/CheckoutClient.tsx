@@ -1,7 +1,9 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { useApp } from '@/context/AppContext';
+import { useAuth } from '@/context/AuthContext';
+import { useCart } from '@/context/CartContext';
+import { useOrders } from '@/context/OrderContext';
 import { useRouter } from '@/i18n/navigation';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -13,7 +15,9 @@ import { CreditCard, DollarSign } from 'lucide-react';
 
 export function CheckoutClient() {
   const t = useTranslations('checkout');
-  const { cart, cartTotal, placeOrder, user } = useApp();
+  const { user } = useAuth();
+  const { cart, cartTotal } = useCart();
+  const { placeOrder } = useOrders();
   const router = useRouter();
   const [paymentMethod, setPaymentMethod] = useState('credit');
 

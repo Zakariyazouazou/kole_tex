@@ -1,13 +1,13 @@
 'use client';
 
-import { useApp } from '@/context/AppContext';
+import { useAuth } from '@/context/AuthContext';
 import { useTranslations, useLocale } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { User, LogOut, LayoutDashboard, ChevronDown, LogIn, UserPlus, Package, Heart, Settings } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 
 export function AccountDropdown() {
-  const { isAuthenticated, user, logout } = useApp();
+  const { isAuthenticated, user, logout } = useAuth();
   const t = useTranslations('nav');
   const locale = useLocale();
   const [open, setOpen] = useState(false);
