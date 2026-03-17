@@ -38,7 +38,7 @@ export function SettingsClient() {
       </div>
 
       <div className="rounded-2xl border border-gray-100 bg-white p-6 sm:p-8 shadow-sm max-w-3xl">
-        <form onSubmit={handleSave} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <form key={user?.email || 'none'} onSubmit={handleSave} className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-2">
             <Label className="text-xs font-bold uppercase tracking-wider text-gray-400">{t('name')}</Label>
             <Input

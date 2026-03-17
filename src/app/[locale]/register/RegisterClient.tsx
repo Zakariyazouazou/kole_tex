@@ -39,7 +39,7 @@ export function RegisterClient() {
             <p className="mt-2 text-sm text-gray-500">{t('registerSubtitle')}</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form key="register" onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="name">{t('name')}</Label>
               <Input

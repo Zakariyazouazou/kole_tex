@@ -37,7 +37,7 @@ export function CheckoutClient() {
         <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-8">{t('title')}</h1>
 
         <form onSubmit={handlePlaceOrder}>
-          <div className="grid lg:grid-cols-3 gap-8">
+          <div key={user?.email || 'guest'} className="grid lg:grid-cols-3 gap-8">
             {/* Shipping + Payment */}
             <div className="lg:col-span-2 space-y-6">
               {/* Shipping */}

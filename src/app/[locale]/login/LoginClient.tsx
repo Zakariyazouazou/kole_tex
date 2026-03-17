@@ -36,7 +36,7 @@ export function LoginClient() {
             <p className="mt-2 text-sm text-gray-500">{t('loginSubtitle')}</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form key="login" onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">{t('email')}</Label>
               <Input
