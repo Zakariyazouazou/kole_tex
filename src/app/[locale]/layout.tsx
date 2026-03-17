@@ -1,5 +1,7 @@
 import { NextIntlClientProvider, hasLocale } from 'next-intl';
 import { notFound } from 'next/navigation';
+import '../globals.css';
+
 import { routing } from '@/i18n/routing';
 import { Bricolage_Grotesque } from 'next/font/google';
 import { AppProvider } from '@/context/AppContext';
@@ -7,6 +9,7 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { ScrollToTop } from '@/components/ScrollToTop';
 import { PromoModal } from '@/components/PromoModal';
+import { CookieBanner } from '@/components/CookieBanner';
 
 
 
@@ -34,6 +37,7 @@ export default async function LocaleLayout({
                 <Footer />
                 <ScrollToTop />
                 <PromoModal />
+                <CookieBanner />
               </div>
           </AppProvider>
         </NextIntlClientProvider>

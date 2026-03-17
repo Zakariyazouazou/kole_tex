@@ -27,7 +27,7 @@ export function CustomButton({
       className={cn(
         // 'group' is required to trigger hover effects on child elements
         // Added 'border' and 'rounded-full' to match your input field shape
-        'relative overflow-hidden px-6 py-3.5 text-sm font-medium border rounded-full group bg-transparent transition-all',
+        'cursor-pointer relative overflow-hidden px-6 py-3.5 text-sm font-medium border rounded-full group bg-transparent transition-all',
         className
       )}
       style={style}
@@ -49,7 +49,8 @@ export function CustomButton({
         origin-left makes it grow from left to right.
         group-hover:scale-x-100 fills the button on hover.
       */}
-      <div className="absolute inset-0 z-0 h-full w-full bg-(--bg-hover) origin-left scale-x-0 transition-transform duration-300 ease-out group-hover:scale-x-100 rounded-full" />
+      <div className="absolute inset-0 z-0 h-full w-full bg-(--bg-hover) origin-left scale-x-0 transition-transform duration-300 ease-out 
+      group-hover:scale-x-100 rounded-full rounded-l-none" />
     </button>
   );
 }

@@ -5,6 +5,8 @@ import { useState } from 'react';
 import { Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { CustomButton } from '@/components/ui/CustomButton';
+
 
 export function PricingClient() {
   const t = useTranslations('pricing');
@@ -109,16 +111,18 @@ export function PricingClient() {
                     <span className="text-gray-500 text-sm">/{annual ? t('annual').toLowerCase() : t('monthly').toLowerCase()}</span>
                   )}
                 </div>
-                <Button
-                  className={`w-full mt-6 cursor-pointer ${
+                <CustomButton
+                  className={`w-full mt-6 ${
                     plan.popular
-                      ? 'bg-brand-blue hover:bg-brand-blue-dark text-white'
-                      : 'bg-white text-brand-blue border-brand-blue hover:bg-brand-blue-light'
+                      ? 'bg-brand-blue text-white border-brand-blue'
+                      : 'bg-white text-brand-blue border-brand-blue shadow-none'
                   }`}
-                  variant={plan.popular ? 'default' : 'outline'}
+                  bgHover={plan.popular ? '#2d3a7a' : '#3C4EA1'}
+                  textHover="white"
                 >
                   {plan.cta}
-                </Button>
+                </CustomButton>
+
                 <ul className="mt-6 space-y-3">
                   {plan.features.map((feature) => (
                     <li key={feature} className="flex items-start gap-2">

@@ -8,6 +8,8 @@ import { Star, Minus, Plus, Check, Truck, RotateCcw } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { CustomButton } from '@/components/ui/CustomButton';
+
 
 interface Props {
   product: Product;
@@ -198,24 +200,27 @@ export function ProductDetailClient({ product, relatedProducts }: Props) {
                   <Plus className="h-4 w-4" />
                 </button>
               </div>
-              <Button
+              <CustomButton
                 onClick={handleAddToCart}
                 disabled={!product.inStock}
-                className={`flex-1 py-6 text-base rounded-lg cursor-pointer transition-all ${
+                className={`flex-1 py-6 text-base rounded-lg border-none ${
                   added
-                    ? 'bg-green-600 hover:bg-green-700'
-                    : 'bg-brand-blue hover:bg-brand-blue-dark'
+                    ? 'bg-green-600'
+                    : 'bg-brand-blue'
                 }`}
+                bgHover={added ? '#15803d' : '#2d3a7a'}
+                textHover="white"
               >
                 {added ? (
-                  <span className="flex items-center gap-2">
+                  <span className="flex items-center justify-center gap-2">
                     <Check className="h-5 w-5" />
                     {t('addedToCart')}
                   </span>
                 ) : (
                   t('addToCart')
                 )}
-              </Button>
+              </CustomButton>
+
             </div>
 
             {/* Delivery Info */}

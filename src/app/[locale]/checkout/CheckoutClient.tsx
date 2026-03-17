@@ -5,6 +5,8 @@ import { useApp } from '@/context/AppContext';
 import { useRouter } from '@/i18n/navigation';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { CustomButton } from '@/components/ui/CustomButton';
+
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { CreditCard, DollarSign } from 'lucide-react';
@@ -178,12 +180,15 @@ export function CheckoutClient() {
                     <span className="text-brand-blue">${total.toFixed(2)}</span>
                   </div>
                 </div>
-                <Button
+                <CustomButton
                   type="submit"
-                  className="w-full mt-6 bg-brand-blue hover:bg-brand-blue-dark cursor-pointer py-5 text-base"
+                  className="w-full mt-6 bg-brand-blue text-white border-brand-blue py-5 text-base"
+                  bgHover="#2d3a7a"
+                  textHover="white"
                 >
                   {t('placeOrder')}
-                </Button>
+                </CustomButton>
+
               </div>
             </div>
           </div>

@@ -2,6 +2,8 @@
 
 import { Search, ChevronDown } from 'lucide-react';
 import { categories } from '@/lib/categories';
+import { CustomButton } from '@/components/ui/CustomButton';
+
 
 interface HeaderSearchBarProps {
   searchQuery: string;
@@ -41,12 +43,16 @@ export function HeaderSearchBar({
           placeholder="What are you looking for?"
           className="flex-1 bg-white py-2.5 px-4 text-sm outline-none"
         />
-        <button
+        <CustomButton
           type="submit"
-          className="flex items-center justify-center px-4 bg-brand-blue text-white hover:bg-brand-blue-dark transition-colors cursor-pointer"
+          className="px-4 border-brand-blue bg-brand-blue text-white rounded-l-none"
+          bgHover="white"
+          textHover="#2d3a7a"
+
         >
           <Search className="h-5 w-5" />
-        </button>
+        </CustomButton>
+
       </div>
     </form>
   );

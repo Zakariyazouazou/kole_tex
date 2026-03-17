@@ -5,6 +5,8 @@ import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { X, Minus, Plus, ShoppingBag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { CustomButton } from '@/components/ui/CustomButton';
+
 
 interface CartSidebarProps {
   open: boolean;
@@ -113,16 +115,17 @@ export function CartSidebar({ open, onClose }: CartSidebarProps) {
                 <span className="text-brand-blue">${cartTotal.toFixed(2)}</span>
               </div>
               <div className="grid grid-cols-2 gap-3">
-                <Link href="/cart" onClick={onClose}>
-                  <Button variant="outline" className="w-full cursor-pointer">
+                <Link href="/cart" onClick={onClose} className="block">
+                  <CustomButton className="w-full border-gray-200 text-gray-600" bgHover="#3C4EA1" textHover="white">
                     {t('title')}
-                  </Button>
+                  </CustomButton>
                 </Link>
-                <Link href="/checkout" onClick={onClose}>
-                  <Button className="w-full bg-brand-blue hover:bg-brand-blue-dark cursor-pointer">
+                <Link href="/checkout" onClick={onClose} className="block">
+                  <CustomButton className="w-full bg-brand-blue text-white border-brand-blue" bgHover="#2d3a7a" textHover="white">
                     {t('checkout')}
-                  </Button>
+                  </CustomButton>
                 </Link>
+
               </div>
             </div>
           )}

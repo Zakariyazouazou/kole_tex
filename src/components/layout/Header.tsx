@@ -115,7 +115,7 @@ export function Header() {
               </div>
 
               {/* Brand Logo */}
-              <Link href="/" className="flex-shrink-0">
+              <Link href="/" className="shrink-0">
                 <span className="text-2xl md:text-3xl font-bold tracking-tight">
                   <span className="text-brand-blue">kole</span>
                   <span className="text-gray-800"> tex</span>

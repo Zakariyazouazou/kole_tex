@@ -4,7 +4,9 @@ import { useApp } from '@/context/AppContext';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { Star, ShoppingCart } from 'lucide-react';
+import { CustomButton } from '@/components/ui/CustomButton';
 import type { Product } from '@/lib/products';
+
 
 interface ProductCardProps {
   product: Product;
@@ -53,13 +55,16 @@ export function ProductCard({ product }: ProductCardProps) {
             </span>
           )}
           {/* Quick add */}
-          <button
+          <CustomButton
             onClick={handleAddToCart}
-            className="absolute bottom-3 right-3 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md text-gray-700 opacity-0 translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 hover:bg-brand-blue hover:text-white cursor-pointer"
+            className="absolute bottom-3 right-3 flex h-10 w-10 items-center justify-center p-0 border-none bg-white shadow-md text-gray-700 opacity-0 translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 text-hover:white bg-hover:brand-blue"
+            bgHover="#3C4EA1"
+            textHover="white"
             aria-label={t('addToCart')}
           >
             <ShoppingCart className="h-4 w-4" />
-          </button>
+          </CustomButton>
+
         </div>
 
         {/* Content */}

@@ -5,6 +5,8 @@ import { useApp } from '@/context/AppContext';
 import { Link } from '@/i18n/navigation';
 import { Minus, Plus, Trash2, ShoppingBag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { CustomButton } from '@/components/ui/CustomButton';
+
 
 export function CartClient() {
   const t = useTranslations('cart');
@@ -19,11 +21,12 @@ export function CartClient() {
         <ShoppingBag className="h-20 w-20 text-gray-200 mb-6" />
         <h1 className="text-2xl font-bold text-gray-900">{t('empty')}</h1>
         <p className="mt-2 text-gray-500 text-sm">{t('emptyMessage')}</p>
-        <Link href="/products">
-          <Button className="mt-6 bg-brand-blue hover:bg-brand-blue-dark cursor-pointer">
+        <Link href="/products" className="block mt-6">
+          <CustomButton className="bg-brand-blue text-white border-brand-blue" bgHover="#2d3a7a" textHover="white">
             {t('continueShopping')}
-          </Button>
+          </CustomButton>
         </Link>
+
       </div>
     );
   }
@@ -116,19 +119,21 @@ export function CartClient() {
                   <span className="text-brand-blue">${total.toFixed(2)}</span>
                 </div>
               </div>
-              <Link href="/checkout">
-                <Button className="w-full mt-6 bg-brand-blue hover:bg-brand-blue-dark cursor-pointer py-5 text-base">
+              <Link href="/checkout" className="block mt-6">
+                <CustomButton className="w-full bg-brand-blue text-white border-brand-blue py-5 text-base" bgHover="#2d3a7a" textHover="white">
                   {t('checkout')}
-                </Button>
+                </CustomButton>
               </Link>
-              <Link href="/products">
-                <Button
-                  variant="ghost"
-                  className="w-full mt-2 text-brand-blue hover:text-brand-blue-dark cursor-pointer"
+              <Link href="/products" className="block mt-2 text-center">
+                <CustomButton
+                  className="w-full text-brand-blue border-none shadow-none"
+                  bgHover="#3C4EA1"
+                  textHover="white"
                 >
                   {t('continueShopping')}
-                </Button>
+                </CustomButton>
               </Link>
+
             </div>
           </div>
         </div>
