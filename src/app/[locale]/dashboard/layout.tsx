@@ -14,11 +14,11 @@ export default async function DashboardLayout({
 
   return (
     <ProtectedRoute>
-      <div className="bg-gray-50 min-h-screen py-8 md:py-12">
+      <div className="bg-gray-50 min-h-screen py-8 md:py-12 pb-24 lg:pb-12">
         <div className="mx-auto max-w-7xl px-4">
           <div className="flex flex-col lg:flex-row gap-8">
-            {/* Sidebar Navigation */}
-            <aside className="w-full lg:w-64 shrink-0">
+            {/* Sidebar Navigation - Desktop */}
+            <aside className="hidden lg:block w-full lg:w-64 shrink-0">
               <div className="sticky top-24 space-y-6">
                 <div>
                   <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4 px-4">
@@ -28,6 +28,11 @@ export default async function DashboardLayout({
                 </div>
               </div>
             </aside>
+
+            {/* Bottom Navigation - Mobile */}
+            <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/80 backdrop-blur-md border-t border-gray-100 shadow-[0_-10px_30px_rgba(0,0,0,0.05)]">
+              <DashboardNav />
+            </div>
 
             {/* Main Content Area */}
             <main className="flex-1 min-w-0">
@@ -39,3 +44,4 @@ export default async function DashboardLayout({
     </ProtectedRoute>
   );
 }
+
