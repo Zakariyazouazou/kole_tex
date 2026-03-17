@@ -28,20 +28,19 @@ export function Footer() {
             <div className="pt-2">
               <p className="text-sm font-semibold text-white mb-2">{t('newsletter')}</p>
               <p className="text-xs text-gray-400 mb-3">{t('newsletterText')}</p>
-              <form className="flex gap-2" onSubmit={(e) => e.preventDefault()}>
+              <form className="flex flex-col gap-3" onSubmit={(e) => e.preventDefault()}>
                 <input
                   type="email"
                   placeholder={t('emailPlaceholder')}
-                  className="flex-1 rounded-lg border border-gray-700 bg-gray-800 px-3 py-2 text-sm text-white placeholder:text-gray-500 outline-none focus:border-brand-blue transition-colors"
+                  className="w-full rounded-lg border border-gray-700 bg-gray-800 px-4 py-2.5 text-sm text-white placeholder:text-gray-500 outline-none focus:border-brand-blue transition-all"
                 />
                 <CustomButton
                   type="submit"
-                  className="px-6 py-2 text-sm font-medium text-white border-brand-blue bg-brand-blue"
+                  className="w-full py-2.5 text-sm font-semibold text-white border-brand-blue bg-brand-blue shadow-lg shadow-brand-blue/10"
                   bgHover="#2d3a7a"
                 >
                   {t('subscribe')}
                 </CustomButton>
-
               </form>
             </div>
           </div>
@@ -128,7 +127,7 @@ export function Footer() {
             <span className="text-xs text-gray-500 hover:text-gray-400 transition-colors cursor-pointer">
               {t('termsOfService')}
             </span>
-            <LanguageSwitcher variant="light" />
+            <LanguageSwitcher variant="light" direction="up" />
           </div>
         </div>
       </div>
