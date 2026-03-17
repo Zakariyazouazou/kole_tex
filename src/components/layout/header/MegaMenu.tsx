@@ -36,7 +36,7 @@ export function MegaMenu({
 
   return (
     <div
-      className={`absolute bg-white shadow-xl border-gray-100 transition-all duration-300 ease-in-out overflow-hidden z-50 ${positionClasses} ${
+      className={`absolute bg-white shadow-xl border-gray-100 transition-all duration-300 ease-in-out overflow-hidden z-10 ${positionClasses} ${
         activeNav === 'shop-by-categories' ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0 pointer-events-none'
       }`}
       onMouseEnter={() => handleNavEnter('shop-by-categories')}
@@ -48,7 +48,7 @@ export function MegaMenu({
             {categories.map((cat) => (
               <button
                 key={cat.slug}
-                className={`flex items-center justify-between w-full px-4 py-3 text-sm font-medium rounded-lg transition-colors cursor-pointer ${
+                className={`flex items-center justify-between w-full px-4 py-3 text-sm font-medium rounded-lg cursor-pointer ${
                   hoveredCategory === cat.slug
                     ? 'bg-brand-blue text-white'
                     : 'text-gray-700 hover:bg-brand-blue-light hover:text-brand-blue'

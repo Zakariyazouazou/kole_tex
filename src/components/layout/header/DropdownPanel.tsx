@@ -21,7 +21,7 @@ export function DropdownPanel({
 }: DropdownPanelProps) {
   return (
     <div
-      className={`absolute left-0 right-0 bg-white shadow-xl border-t border-gray-100 transition-all duration-300 ease-in-out overflow-hidden z-50 ${
+      className={`absolute left-0 right-0 bg-white shadow-xl border-t border-gray-100 transition-all duration-300 ease-in-out overflow-hidden z-10 ${
         active ? 'max-h-[520px] opacity-100' : 'max-h-0 opacity-0 pointer-events-none'
       }`}
       onMouseEnter={onMouseEnter}
