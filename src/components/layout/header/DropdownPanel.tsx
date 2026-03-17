@@ -36,7 +36,7 @@ export function DropdownPanel({
                 <ul className="space-y-2">
                   {col.links.map((link) => (
                     <li key={link}>
-                      <Link href="/products" className="text-sm text-gray-600 hover:text-brand-blue transition-colors">
+                      <Link href="/products" className="text-sm text-gray-600 hover:text-brand-blue transition-colors" onClick={onMouseLeave}>
                         {link}
                       </Link>
                     </li>
@@ -51,13 +51,15 @@ export function DropdownPanel({
               <div className="absolute inset-0 bg-linear-to-t from-black/50 to-transparent flex flex-col items-center justify-end p-5 text-center">
                 <span className="text-xs font-semibold text-white/90 bg-brand-blue px-3 py-1 rounded-full mb-2">{promo.badge}</span>
                 <p className="text-white text-base font-bold leading-tight mb-3">{promo.title}</p>
-                <CustomButton 
-                  className="bg-white text-gray-900 border-white hover:border-transparent text-xs py-2 px-4" 
-                  bgHover="#3C4EA1" 
-                  textHover="white"
-                >
-                  Shop Now
-                </CustomButton>
+                <Link href="/products" onClick={onMouseLeave}>
+                  <CustomButton 
+                    className="bg-white text-gray-900 border-white hover:border-transparent text-xs py-2 px-4" 
+                    bgHover="#3C4EA1" 
+                    textHover="white"
+                  >
+                    Shop Now
+                  </CustomButton>
+                </Link>
               </div>
             </div>
           </div>

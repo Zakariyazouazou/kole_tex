@@ -64,14 +64,14 @@ export function MegaMenu({
             <div className="grid grid-cols-4 gap-4">
               {activeCat && (
                 <div className="group block">
-                  <Link href={`/products?category=${encodeURIComponent(activeCat.name)}`}>
+                  <Link href={`/products?category=${encodeURIComponent(activeCat.name)}`} onClick={handleNavLeave}>
                     <div className="aspect-square rounded-xl overflow-hidden bg-brand-blue-light mb-2">
                       <div className="w-full h-full flex items-center justify-center">
                         <span className="text-brand-blue text-lg font-semibold">All {activeCat.name}</span>
                       </div>
                     </div>
                   </Link>
-                  <Link href={`/products?category=${encodeURIComponent(activeCat.name)}`}>
+                  <Link href={`/products?category=${encodeURIComponent(activeCat.name)}`} onClick={handleNavLeave}>
                     <CustomButton 
                       className="text-xs font-medium text-brand-blue border-brand-blue-light py-1.5 px-3"
                       bgHover="#3C4EA1"
@@ -88,7 +88,7 @@ export function MegaMenu({
                   (p) => p.subcategory?.toLowerCase() === sub.name.toLowerCase()
                 );
                 return (
-                  <Link key={sub.slug} href={`/products?category=${encodeURIComponent(activeCat.name)}`} className="group block">
+                  <Link key={sub.slug} href={`/products?category=${encodeURIComponent(activeCat.name)}`} className="group block" onClick={handleNavLeave}>
                     <div className="aspect-square rounded-xl overflow-hidden bg-gray-100 mb-2">
                       <img
                         src={matchProduct?.image || `https://picsum.photos/seed/${sub.slug}/300/300`}
