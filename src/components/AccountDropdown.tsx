@@ -56,7 +56,7 @@ export function AccountDropdown() {
 
               {/* New: My Orders */}
               <Link
-                href="#"
+                href="/dashboard/orders"
                 onClick={() => setOpen(false)}
                 className="flex items-center gap-2.5 rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-brand-blue transition-colors"
               >
@@ -66,7 +66,7 @@ export function AccountDropdown() {
 
               {/* New: Wishlist */}
               <Link
-                href="#"
+                href="/dashboard/settings"
                 onClick={() => setOpen(false)}
                 className="flex items-center gap-2.5 rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-brand-blue transition-colors"
               >
@@ -76,13 +76,14 @@ export function AccountDropdown() {
 
               {/* New: Settings */}
               <Link
-                href="#"
+                href="/dashboard/settings"
                 onClick={() => setOpen(false)}
                 className="flex items-center gap-2.5 rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-brand-blue transition-colors"
               >
                 <Settings className="h-4 w-4 text-gray-400" />
                 settings
               </Link>
+
 
               {/* Subtle Divider before Logout */}
               <div className="h-px bg-gray-100 my-1 mx-2"></div>
