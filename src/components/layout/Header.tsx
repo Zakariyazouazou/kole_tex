@@ -85,7 +85,11 @@ export function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-30 bg-white border-b border-gray-100">
+      <header className={`sticky top-0 z-30 transition-all duration-500 ease-in-out ${
+        scrolled 
+          ? 'bg-white/70 backdrop-blur-xl border-b border-gray-200/50 shadow-sm' 
+          : 'bg-white border-b border-gray-100'
+      }`}>
         {/* Row 1: Utility Bar */}
         <TopUtilityBar scrolled={scrolled} />
 

@@ -30,8 +30,8 @@ export function AccountDropdown() {
         className="flex items-center gap-1.5 text-gray-700 hover:text-brand-blue transition-colors cursor-pointer"
         aria-label={t('account')}
       >
-        <User className="h-5 w-5" />
-        <ChevronDown className={`h-3 w-3 transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
+        <User className="h-6 w-6" />
+        <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
       </button>
 
       {open && (

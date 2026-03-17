@@ -40,23 +40,35 @@ export function MobileSideMenu({
           mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        {/* Sidebar header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
-          <Link href="/" onClick={() => setMobileMenuOpen(false)} className="shrink-0">
-            <span className="text-xl font-bold tracking-tight">
-              <span className="text-brand-blue">kole</span>
-              <span className="text-gray-800"> tex</span>
-            </span>
-          </Link>
-          <button
-            onClick={() => setMobileMenuOpen(false)}
-            className="p-1 text-gray-500 hover:text-gray-800 cursor-pointer"
-            aria-label="Close menu"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
+        {/* Sidebar Header & Socials */}
+        <div className="border-b border-gray-100 pb-2">
+          <div className="flex items-center justify-between px-5 py-4">
+            <Link href="/" onClick={() => setMobileMenuOpen(false)} className="shrink-0">
+              <span className="text-xl font-bold tracking-tight">
+                <span className="text-brand-blue">kole</span>
+                <span className="text-gray-800"> tex</span>
+              </span>
+            </Link>
+            <button
+              onClick={() => setMobileMenuOpen(false)}
+              className="p-1 text-gray-500 hover:text-gray-800 cursor-pointer"
+              aria-label="Close menu"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
+          <div className="flex items-center justify-between px-5 py-2 gap-4">
+            <div className="flex items-center gap-4 text-gray-400">
+              <a href="#" aria-label="Facebook" className="hover:text-brand-blue transition-colors"><FacebookIcon /></a>
+              <a href="#" aria-label="X" className="hover:text-brand-blue transition-colors"><XIcon /></a>
+              <a href="#" aria-label="Instagram" className="hover:text-brand-blue transition-colors"><InstagramIcon /></a>
+              <a href="#" aria-label="TikTok" className="hover:text-brand-blue transition-colors"><TikTokIcon /></a>
+            </div>
+            <LanguageSwitcher align="right" />
+          </div>
         </div>
 
         {/* Sidebar search */}
@@ -136,18 +148,9 @@ export function MobileSideMenu({
           >
             ON SALE
           </Link>
-
-          <div className="mx-4 mt-4 pt-4 border-t border-gray-100 flex items-center gap-4">
-            <LanguageSwitcher align="left" />
-            <div className="flex items-center gap-3 text-gray-400">
-              <a href="#" aria-label="Facebook"><FacebookIcon /></a>
-              <a href="#" aria-label="X"><XIcon /></a>
-              <a href="#" aria-label="Instagram"><InstagramIcon /></a>
-              <a href="#" aria-label="TikTok"><TikTokIcon /></a>
-            </div>
-          </div>
         </div>
       </div>
     </>
   );
 }
+
