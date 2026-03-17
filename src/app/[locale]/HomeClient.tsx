@@ -38,7 +38,7 @@ export function HomeClient() {
   return (
     <div>
       {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-brand-blue-light via-white to-white">
+      <section className="relative overflow-hidden bg-linear-to-br from-brand-blue-light via-white to-white">
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-20 left-10 w-72 h-72 bg-brand-blue rounded-full blur-3xl" />
           <div className="absolute bottom-10 right-10 w-96 h-96 bg-brand-blue rounded-full blur-3xl" />

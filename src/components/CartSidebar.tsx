@@ -114,18 +114,17 @@ export function CartSidebar({ open, onClose }: CartSidebarProps) {
                 <span>{t('subtotal')}</span>
                 <span className="text-brand-blue">${cartTotal.toFixed(2)}</span>
               </div>
-              <div className="grid grid-cols-2 gap-3">
-                <Link href="/cart" onClick={onClose} className="block">
-                  <CustomButton className="w-full border-gray-200 text-gray-600" bgHover="#3C4EA1" textHover="white">
-                    {t('title')}
-                  </CustomButton>
-                </Link>
-                <Link href="/checkout" onClick={onClose} className="block">
-                  <CustomButton className="w-full bg-brand-blue text-white border-brand-blue" bgHover="#2d3a7a" textHover="white">
+              <div className="flex flex-col gap-2">
+                <Link href="/checkout" onClick={onClose} className="block w-full order-1">
+                  <CustomButton className="w-full bg-brand-blue text-white border-brand-blue py-3 text-sm font-semibold" bgHover="#2d3a7a" textHover="white">
                     {t('checkout')}
                   </CustomButton>
                 </Link>
-
+                <Link href="/cart" onClick={onClose} className="block w-full order-2">
+                  <CustomButton className="w-full border-gray-200 text-gray-600 py-3 text-sm font-medium" bgHover="#f8f9fa" textHover="#3C4EA1">
+                    {t('title')}
+                  </CustomButton>
+                </Link>
               </div>
             </div>
           )}

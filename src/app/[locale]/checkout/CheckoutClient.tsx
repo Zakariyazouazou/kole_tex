@@ -182,7 +182,7 @@ export function CheckoutClient() {
                 </div>
                 <CustomButton
                   type="submit"
-                  className="w-full mt-6 bg-brand-blue text-white border-brand-blue py-5 text-base"
+                  className="w-full mt-6 bg-brand-blue text-white border-brand-blue py-3 text-sm font-semibold"
                   bgHover="#2d3a7a"
                   textHover="white"
                 >

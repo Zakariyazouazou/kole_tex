@@ -120,7 +120,7 @@ export function CartClient() {
                 </div>
               </div>
               <Link href="/checkout" className="block mt-6">
-                <CustomButton className="w-full bg-brand-blue text-white border-brand-blue py-5 text-base" bgHover="#2d3a7a" textHover="white">
+                <CustomButton className="w-full bg-brand-blue text-white border-brand-blue py-3 text-sm font-semibold" bgHover="#2d3a7a" textHover="white">
                   {t('checkout')}
                 </CustomButton>
               </Link>
