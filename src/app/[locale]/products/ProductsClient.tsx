@@ -193,7 +193,7 @@ export function ProductsClient() {
 
   return (
     <div>
-      <section className="bg-gradient-to-br from-brand-blue-light via-white to-white py-12">
+      <section className="bg-linear-to-br from-brand-blue-light via-white to-white py-12">
         <div className="mx-auto max-w-7xl px-4">
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900">{t('title')}</h1>
           <p className="mt-2 text-gray-500">{t('subtitle')}</p>
@@ -204,7 +204,7 @@ export function ProductsClient() {
         <div className="mx-auto max-w-7xl px-4">
           <div className="flex gap-8">
             {/* Sidebar — Desktop */}
-            <aside className="hidden lg:block w-64 flex-shrink-0">
+            <aside className="hidden lg:block w-64 shrink-0">
               <div className="sticky top-36 rounded-xl border border-gray-100 p-5">
                 <h2 className="text-base font-semibold text-gray-900 mb-4">{t('filters')}</h2>
                 <FilterPanel />

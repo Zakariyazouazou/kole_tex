@@ -190,7 +190,7 @@ export function ProductDetailClient({ product, relatedProducts }: Props) {
                 >
                   <Minus className="h-4 w-4" />
                 </button>
-                <span className="px-4 py-2.5 text-sm font-medium border-x border-gray-200 min-w-[3rem] text-center">
+                <span className="px-4 py-2.5 text-sm font-medium border-x border-gray-200 min-w-12 text-center">
                   {quantity}
                 </span>
                 <button
