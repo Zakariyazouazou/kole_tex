@@ -135,3 +135,46 @@
     scroll-behavior: smooth;
   }
 }
+
+@layer components {
+  .cool-beans {
+    --bg-hover: #3C4EA1;
+    --text-hover: white;
+    border: 2px solid currentColor;
+    border-radius: 9999px;
+    overflow: hidden;
+    position: relative;
+    transition: all 0.2s ease-in-out;
+    z-index: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    will-change: transform;
+  }
+
+  .cool-beans::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 110%;
+    height: 110%;
+    background-color: var(--bg-hover);
+    transform: translate(-105%, 5%) rotate(10deg);
+    transform-origin: top left;
+    transition: transform 0.3s ease-out;
+    z-index: -1;
+    will-change: transform;
+  }
+
+  .cool-beans:hover::after {
+    transform: translate(0, 0);
+  }
+
+  .cool-beans:hover {
+    transform: scale(1.05);
+    color: var(--text-hover);
+    border-color: transparent;
+  }
+}

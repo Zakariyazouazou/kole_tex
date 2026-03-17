@@ -11,9 +11,10 @@ interface TopUtilityBarProps {
 export function TopUtilityBar({ scrolled }: TopUtilityBarProps) {
   return (
     <div
-      className="bg-brand-blue text-white text-xs overflow-hidden transition-all duration-400 ease-in-out"
+      className={`bg-brand-blue text-white text-xs transition-all duration-400 ease-in-out ${scrolled ? 'overflow-hidden' : 'overflow-visible'}`}
       style={{ maxHeight: scrolled ? 0 : 50, opacity: scrolled ? 0 : 1 }}
     >
+
       <div className="mx-auto max-w-7xl px-4">
         <div className="flex items-center justify-between py-2">
           <div className="hidden md:flex items-center gap-4">

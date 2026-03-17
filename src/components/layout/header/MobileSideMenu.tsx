@@ -42,7 +42,7 @@ export function MobileSideMenu({
       >
         {/* Sidebar header */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
-          <Link href="/" onClick={() => setMobileMenuOpen(false)} className="flex-shrink-0">
+          <Link href="/" onClick={() => setMobileMenuOpen(false)} className="shrink-0">
             <span className="text-xl font-bold tracking-tight">
               <span className="text-brand-blue">kole</span>
               <span className="text-gray-800"> tex</span>
@@ -138,7 +138,7 @@ export function MobileSideMenu({
           </Link>
 
           <div className="mx-4 mt-4 pt-4 border-t border-gray-100 flex items-center gap-4">
-            <LanguageSwitcher />
+            <LanguageSwitcher align="left" />
             <div className="flex items-center gap-3 text-gray-400">
               <a href="#" aria-label="Facebook"><FacebookIcon /></a>
               <a href="#" aria-label="X"><XIcon /></a>

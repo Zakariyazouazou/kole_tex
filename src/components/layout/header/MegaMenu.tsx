@@ -4,6 +4,8 @@ import { Link } from '@/i18n/navigation';
 import { ChevronRight } from 'lucide-react';
 import { categories } from '@/lib/categories';
 import { getProductsByCategory } from '@/lib/products';
+import { CustomButton } from '@/components/ui/CustomButton';
+
 
 interface MegaMenuProps {
   activeNav: string | null;
@@ -11,6 +13,7 @@ interface MegaMenuProps {
   setHoveredCategory: (val: string) => void;
   handleNavEnter: (id: string) => void;
   handleNavLeave: () => void;
+  position?: 'top' | 'bottom' | 'left' | 'right';
 }
 
 export function MegaMenu({
@@ -19,13 +22,21 @@ export function MegaMenu({
   setHoveredCategory,
   handleNavEnter,
   handleNavLeave,
+  position = 'bottom',
 }: MegaMenuProps) {
   const activeCat = categories.find((c) => c.slug === hoveredCategory);
   const categoryProducts = activeCat ? getProductsByCategory(activeCat.name).slice(0, 8) : [];
 
+  const positionClasses = {
+    bottom: 'top-full left-0 right-0 border-t',
+    top: 'bottom-full left-0 right-0 border-b',
+    left: 'top-0 right-full h-full border-r',
+    right: 'top-0 left-full h-full border-l',
+  }[position];
+
   return (
     <div
-      className={`absolute left-0 right-0 bg-white shadow-xl border-t border-gray-100 transition-all duration-300 ease-in-out overflow-hidden z-50 ${
+      className={`absolute bg-white shadow-xl border-gray-100 transition-all duration-300 ease-in-out overflow-hidden z-50 ${positionClasses} ${
         activeNav === 'shop-by-categories' ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0 pointer-events-none'
       }`}
       onMouseEnter={() => handleNavEnter('shop-by-categories')}
@@ -33,7 +44,7 @@ export function MegaMenu({
     >
       <div className="mx-auto max-w-7xl px-4 py-8">
         <div className="flex gap-8">
-          <div className="w-56 flex-shrink-0 border-r border-gray-100 pr-6">
+          <div className="w-56 shrink-0 border-r border-gray-100 pr-6">
             {categories.map((cat) => (
               <button
                 key={cat.slug}
@@ -52,15 +63,26 @@ export function MegaMenu({
           <div className="flex-1">
             <div className="grid grid-cols-4 gap-4">
               {activeCat && (
-                <Link href={`/products?category=${encodeURIComponent(activeCat.name)}`} className="group block">
-                  <div className="aspect-square rounded-xl overflow-hidden bg-brand-blue-light mb-2">
-                    <div className="w-full h-full flex items-center justify-center">
-                      <span className="text-brand-blue text-lg font-semibold">All {activeCat.name}</span>
+                <div className="group block">
+                  <Link href={`/products?category=${encodeURIComponent(activeCat.name)}`}>
+                    <div className="aspect-square rounded-xl overflow-hidden bg-brand-blue-light mb-2">
+                      <div className="w-full h-full flex items-center justify-center">
+                        <span className="text-brand-blue text-lg font-semibold">All {activeCat.name}</span>
+                      </div>
                     </div>
-                  </div>
-                  <p className="text-sm font-medium text-gray-800 group-hover:text-brand-blue transition-colors">Shop All</p>
-                </Link>
+                  </Link>
+                  <Link href={`/products?category=${encodeURIComponent(activeCat.name)}`}>
+                    <CustomButton 
+                      className="text-xs font-medium text-brand-blue border-brand-blue-light py-1.5 px-3"
+                      bgHover="#3C4EA1"
+                      textHover="white"
+                    >
+                      Shop All
+                    </CustomButton>
+                  </Link>
+                </div>
               )}
+
               {activeCat?.subcategories.map((sub) => {
                 const matchProduct = categoryProducts.find(
                   (p) => p.subcategory?.toLowerCase() === sub.name.toLowerCase()
@@ -85,3 +107,4 @@ export function MegaMenu({
     </div>
   );
 }
+

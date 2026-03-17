@@ -98,19 +98,19 @@ export function Header() {
                 className="hidden lg:block overflow-hidden transition-all duration-300 ease-in-out"
                 style={{ width: scrolled ? 22 : 0, opacity: scrolled ? 1 : 0 }}
               >
-                <HamburgerButton 
-                  open={desktopNavOpen} 
-                  onClick={() => setDesktopNavOpen((v) => !v)} 
-                  size="md" 
+                <HamburgerButton
+                  open={desktopNavOpen}
+                  onClick={() => setDesktopNavOpen((v) => !v)}
+                  size="md"
                 />
               </div>
 
               {/* Mobile hamburger */}
               <div className="lg:hidden">
-                <HamburgerButton 
-                  open={mobileMenuOpen} 
-                  onClick={() => setMobileMenuOpen((v) => !v)} 
-                  size="sm" 
+                <HamburgerButton
+                  open={mobileMenuOpen}
+                  onClick={() => setMobileMenuOpen((v) => !v)}
+                  size="sm"
                 />
               </div>
 

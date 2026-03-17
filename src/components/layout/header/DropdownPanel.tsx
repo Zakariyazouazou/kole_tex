@@ -1,6 +1,8 @@
 'use client';
 
 import { Link } from '@/i18n/navigation';
+import { CustomButton } from '@/components/ui/CustomButton';
+
 
 interface DropdownPanelProps {
   columns: { title: string; links: string[] }[];
@@ -43,15 +45,19 @@ export function DropdownPanel({
               </div>
             ))}
           </div>
-          <div className="w-52 flex-shrink-0">
+          <div className="w-52 shrink-0">
             <div className="relative rounded-xl overflow-hidden h-full min-h-[250px]">
               <img src={promo.image} alt="Promo" className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent flex flex-col items-center justify-end p-5 text-center">
+              <div className="absolute inset-0 bg-linear-to-t from-black/50 to-transparent flex flex-col items-center justify-end p-5 text-center">
                 <span className="text-xs font-semibold text-white/90 bg-brand-blue px-3 py-1 rounded-full mb-2">{promo.badge}</span>
                 <p className="text-white text-base font-bold leading-tight mb-3">{promo.title}</p>
-                <span className="inline-block bg-white text-gray-900 text-sm font-medium px-4 py-2 rounded-full hover:bg-gray-100 transition-colors cursor-pointer">
+                <CustomButton 
+                  className="bg-white text-gray-900 border-white hover:border-transparent text-xs py-2 px-4" 
+                  bgHover="#3C4EA1" 
+                  textHover="white"
+                >
                   Shop Now
-                </span>
+                </CustomButton>
               </div>
             </div>
           </div>

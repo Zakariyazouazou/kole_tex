@@ -20,9 +20,10 @@ const localeFlags: Record<string, string> = {
 
 interface LanguageSwitcherProps {
   variant?: 'light' | 'dark';
+  align?: 'left' | 'right';
 }
 
-export function LanguageSwitcher({ variant = 'dark' }: LanguageSwitcherProps) {
+export function LanguageSwitcher({ variant = 'dark', align = 'right' }: LanguageSwitcherProps) {
   const locale = useLocale();
   const pathname = usePathname();
   const router = useRouter();
@@ -65,7 +66,7 @@ export function LanguageSwitcher({ variant = 'dark' }: LanguageSwitcherProps) {
       </button>
 
       {open && (
-        <div className="absolute right-0 top-full mt-2 w-40 rounded-lg border border-gray-100 bg-white py-1 shadow-lg z-50">
+        <div className={`absolute ${align === 'right' ? 'right-0' : 'left-0'} top-full mt-2 w-40 rounded-lg border border-gray-100 bg-white py-1 shadow-lg z-50`}>
           {Object.entries(localeNames).map(([code, name]) => (
             <button
               key={code}
