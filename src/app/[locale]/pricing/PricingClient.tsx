@@ -50,7 +50,7 @@ export function PricingClient() {
 
   return (
     <div>
-      <section className="bg-gradient-to-br from-brand-blue-light via-white to-white py-20">
+      <section className="bg-linear-to-br from-brand-blue-light via-white to-white py-20">
         <div className="mx-auto max-w-7xl px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900">{t('title')}</h1>
           <p className="mt-4 text-lg text-gray-500 max-w-2xl mx-auto">{t('subtitle')}</p>
@@ -126,7 +126,7 @@ export function PricingClient() {
                 <ul className="mt-6 space-y-3">
                   {plan.features.map((feature) => (
                     <li key={feature} className="flex items-start gap-2">
-                      <Check className="h-4 w-4 text-brand-blue mt-0.5 flex-shrink-0" />
+                      <Check className="h-4 w-4 text-brand-blue mt-0.5 shrink-0" />
                       <span className="text-sm text-gray-600">{feature}</span>
                     </li>
                   ))}

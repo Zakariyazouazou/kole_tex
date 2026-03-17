@@ -34,7 +34,7 @@ export function DesktopNavigation({
           opacity: !scrolled || desktopNavOpen ? 1 : 0,
         }}
       >
-        <div className="mx-auto max-w-7xl px-4">
+        <div className="mx-auto max-w-7xl px-4 py-1">
           <ul className="flex items-center">
             {navMenuItems.map((item) => (
               <li

@@ -116,12 +116,12 @@ export function CartSidebar({ open, onClose }: CartSidebarProps) {
               </div>
               <div className="flex flex-col gap-2">
                 <Link href="/checkout" onClick={onClose} className="block w-full order-1">
-                  <CustomButton className="w-full bg-brand-blue text-white border-brand-blue py-3 text-sm font-semibold" bgHover="#2d3a7a" textHover="white">
+                  <CustomButton className="w-full bg-brand-blue text-white border-brand-blue py-2 lg:py-2.5 px-4 lg:px-6 text-xs lg:text-sm font-semibold" bgHover="#2d3a7a" textHover="white">
                     {t('checkout')}
                   </CustomButton>
                 </Link>
                 <Link href="/cart" onClick={onClose} className="block w-full order-2">
-                  <CustomButton className="w-full border-gray-200 text-gray-600 py-3 text-sm font-medium" bgHover="#f8f9fa" textHover="#3C4EA1">
+                  <CustomButton className="w-full border-gray-200 text-gray-600 py-2 lg:py-2.5 px-4 lg:px-6 text-xs lg:text-sm font-medium" bgHover="#f8f9fa" textHover="#3C4EA1">
                     {t('title')}
                   </CustomButton>
                 </Link>

@@ -84,7 +84,7 @@ export function HomeClient() {
                 key={i}
                 className="flex items-start gap-4 rounded-xl border border-gray-100 p-6 transition-all duration-300 hover:shadow-md hover:border-brand-blue/20 hover:-translate-y-1"
               >
-                <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-brand-blue-light text-brand-blue">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-brand-blue-light text-brand-blue">
                   <f.icon className="h-6 w-6" />
                 </div>
                 <div>

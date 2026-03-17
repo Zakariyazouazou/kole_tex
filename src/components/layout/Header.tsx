@@ -94,7 +94,7 @@ export function Header() {
         <TopUtilityBar scrolled={scrolled} />
 
         {/* Row 2: Logo, Search, Icons */}
-        <div className="mx-auto max-w-7xl px-4">
+        <div className="mx-auto max-w-7xl px-4 ">
           <div className="flex items-center justify-between py-3 gap-4">
             <div className="flex items-center gap-3">
               {/* Desktop hamburger (visible only when scrolled) */}
