@@ -18,19 +18,19 @@ export function HamburgerButton({
   return (
     <button
       onClick={onClick}
-      className={`relative ${w} ${h} flex flex-col justify-between cursor-pointer`}
+      className={`relative  ${w} ${h} flex flex-col justify-between cursor-pointer`}
       aria-label="Menu"
     >
       <span
-        className="block h-[1.5px] w-full bg-gray-700 rounded-full transition-all duration-300 ease-in-out origin-center"
+        className="block h-[2px] w-full bg-gray-700 rounded-full transition-all duration-300 ease-in-out origin-center"
         style={{ transform: open ? `translateY(${ty}px) rotate(45deg)` : 'translateY(0) rotate(0)' }}
       />
       <span
-        className="block h-[1.5px] w-full bg-gray-700 rounded-full transition-all duration-200 ease-in-out"
+        className="block h-[2px] w-full bg-gray-700 rounded-full transition-all duration-200 ease-in-out"
         style={{ opacity: open ? 0 : 1, transform: open ? 'scaleX(0)' : 'scaleX(1)' }}
       />
       <span
-        className="block h-[1.5px] w-full bg-gray-700 rounded-full transition-all duration-300 ease-in-out origin-center"
+        className="block h-[2px] w-full bg-gray-700 rounded-full transition-all duration-300 ease-in-out origin-center"
         style={{ transform: open ? `translateY(-${ty}px) rotate(-45deg)` : 'translateY(0) rotate(0)' }}
       />
     </button>
