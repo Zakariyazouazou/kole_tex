@@ -43,13 +43,13 @@ export function DashboardNav() {
   ];
 
   return (
-    <nav className="flex lg:flex-col items-center lg:items-stretch justify-between lg:justify-start w-full lg:space-y-1 bg-white lg:bg-transparent border-t lg:border-t-0 border-gray-100 lg:border-none py-2  lg:p-0">
+    <nav className="flex lg:flex-col items-center lg:items-stretch justify-between lg:justify-start w-full lg:space-y-1 bg-white lg:bg-transparent border-t lg:border-t-0 border-gray-100 lg:border-none px-4 md:px-6 py-2 lg:p-0">
       {navItems.map((item) => (
         <Link
           key={item.href}
           href={item.href}
           className={cn(
-            'flex flex-col lg:flex-row items-center justify-center lg:justify-between px-3 md:px-4 py-2 lg:py-3 text-[10px] md:text-xs lg:text-sm font-medium rounded-xl transition-all group flex-1 lg:flex-none gap-1 lg:gap-3',
+            'flex flex-col lg:flex-row items-center justify-center lg:justify-between px-1 md:px-4 py-2 lg:py-3 text-[10px] md:text-xs lg:text-sm font-medium rounded-xl transition-all group flex-1 lg:flex-none gap-1 lg:gap-3',
             item.active
               ? 'bg-brand-blue/5 lg:bg-brand-blue text-brand-blue lg:text-white lg:shadow-md lg:shadow-brand-blue/20'
               : 'text-gray-400 lg:text-gray-600 hover:text-brand-blue lg:hover:bg-gray-100'
