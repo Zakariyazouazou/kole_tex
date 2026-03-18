@@ -13,6 +13,7 @@
     "account": "Account",
     "support": "Support",
     "contact": "Contact",
+    "wishlist": "Wishlist",
     "allCategories": "All Categories",
     "freeShippingBar": "Free shipping on orders over $50",
     "secureCheckout": "Secure checkout",
@@ -119,7 +120,8 @@
     "starsAndUp": "stars & up",
     "showing": "Showing",
     "of": "of",
-    "results": "results"
+    "results": "results",
+    "addToWishlist": "Add to Wishlist"
   },
   "product": {
     "description": "Description",
@@ -132,7 +134,14 @@
     "addedToCart": "Added to Cart!",
     "relatedProducts": "You May Also Like",
     "deliveryInfo": "Free delivery on orders over $50",
-    "returnPolicy": "30-day return policy"
+    "returnPolicy": "30-day return policy",
+    "addToWishlist": "Add to Wishlist"
+  },
+  "wishlist": {
+    "title": "My Wishlist",
+    "empty": "Your wishlist is empty",
+    "emptyMessage": "Save items you love to find them later.",
+    "continueShopping": "Continue Shopping"
   },
   "cart": {
     "title": "Shopping Cart",
@@ -345,6 +354,16 @@
     "dashboard": {
       "title": "Dashboard — Kole Tex",
       "description": "Manage your orders, profile, and account settings."
+    },
+    "wishlist": {
+      "title": "Wishlist — Kole Tex",
+      "description": "View and manage your favorite items."
+    },
+    "notFound": {
+      "title": "Page Not Found",
+      "description": "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.",
+      "goHome": "Back to Home",
+      "goBack": "Go Back"
     }
   }
 }

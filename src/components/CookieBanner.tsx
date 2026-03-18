@@ -90,7 +90,7 @@ export function CookieBanner() {
                             </button>
                             <button
                                 onClick={() => savePreferences('accept-all')}
-                                className="cursor-pointer w-full sm:w-auto px-6 py-2.5 rounded-full bg-brand-blue hover:bg-[#3C4EA1] text-white text-sm font-medium transition-all shadow-sm text-center whitespace-nowrap"
+                                className="cursor-pointer w-full sm:w-auto px-6 py-2.5 rounded-full bg-brand-blue hover:bg-brand-blue text-white text-sm font-medium transition-all shadow-sm text-center whitespace-nowrap"
                             >
                                 Accept All
                             </button>
@@ -180,7 +180,7 @@ export function CookieBanner() {
                             </button>
                             <button
                                 onClick={() => savePreferences('accept-all')}
-                                className="w-full sm:flex-1 px-5 py-2.5 rounded-full bg-brand-blue hover:bg-[#3C4EA1] text-white text-sm font-medium transition-all shadow-sm flex items-center justify-center gap-2"
+                                className="w-full sm:flex-1 px-5 py-2.5 rounded-full bg-brand-blue hover:bg-brand-blue text-white text-sm font-medium transition-all shadow-sm flex items-center justify-center gap-2"
                             >
                                 <Check className="h-4 w-4" />
                                 Accept All

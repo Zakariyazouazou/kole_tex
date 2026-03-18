@@ -4,6 +4,7 @@ import { useTranslations, useLocale } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { AccountDropdown } from '@/components/AccountDropdown';
+import { WishlistIcon } from '@/components/WishlistIcon';
 import { CartIcon } from '@/components/CartIcon';
 import { CartSidebar } from '@/components/CartSidebar';
 import { categories } from '@/lib/categories';
@@ -140,6 +141,7 @@ export function Header() {
             {/* User Actions */}
             <div className="flex items-center gap-5">
               <AccountDropdown />
+              <WishlistIcon count={0} />
               <CartIcon onClick={() => setCartOpen(true)} />
             </div>
           </div>

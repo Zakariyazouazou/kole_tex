@@ -21,9 +21,9 @@ export function AboutClient() {
   ];
 
   return (
-    <div>
+    <div >
       {/* Hero */}
-      <section className="bg-linear-to-br from-brand-blue-light via-white to-white py-20">
+      <section className="bg-linear-to-br from-brand-blue-light via-white to-white py-20 lg:pt-30">
         <div className="mx-auto max-w-7xl px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900">{t('title')}</h1>
           <p className="mt-3 text-lg text-gray-500">{t('subtitle')}</p>

@@ -16,100 +16,87 @@ export function Footer() {
     <footer className="bg-gray-900 text-gray-300">
       <div className="mx-auto max-w-7xl px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-          {/* Column 1: Brand + Newsletter */}
-          <div className="space-y-4">
+          {/* Column 1: Brand */}
+          <div className="space-y-6">
             <Link href="/">
               <span className="text-2xl font-bold tracking-tight">
                 <span className="text-brand-blue">kole</span>
                 <span className="text-white"> tex</span>
               </span>
             </Link>
-            <p className="text-sm leading-relaxed text-gray-400">{t('about')}</p>
-            <div className="pt-2">
-              <p className="text-sm font-semibold text-white mb-2">{t('newsletter')}</p>
-              <p className="text-xs text-gray-400 mb-3">{t('newsletterText')}</p>
-              <form className="flex flex-col gap-3" onSubmit={(e) => e.preventDefault()}>
-                <input
-                  type="email"
-                  placeholder={t('emailPlaceholder')}
-                  className="w-full rounded-lg border border-gray-700 bg-gray-800 px-4 py-2.5 text-sm text-white placeholder:text-gray-500 outline-none focus:border-brand-blue transition-all"
-                />
-                <CustomButton
-                  type="submit"
-                  className="w-full py-2.5 text-sm font-semibold text-white border-brand-blue bg-brand-blue shadow-lg shadow-brand-blue/10"
-                  bgHover="#2d3a7a"
-                >
-                  {t('subscribe')}
-                </CustomButton>
-              </form>
-            </div>
+            <p className="text-sm leading-relaxed text-gray-400">
+              Kole Tex is your premier destination for high-quality electronics, fashion, and home essentials. We strive for excellence in every product.
+            </p>
           </div>
 
-          {/* Column 2: Quick Links */}
+          {/* Column 2: Company */}
           <div>
-            <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">
-              {t('quickLinks')}
-            </h3>
-            <ul className="space-y-2.5">
-              {['home', 'products', 'about', 'pricing', 'contact'].map((key) => (
-                <li key={key}>
-                  <Link
-                    href={key === 'home' ? '/' : `/${key}`}
-                    className="text-sm text-gray-400 hover:text-brand-blue transition-colors"
-                  >
-                    {tn(key as 'home' | 'products' | 'about' | 'pricing' | 'contact')}
-                  </Link>
-                </li>
-              ))}
-              <li>
-                <Link
-                  href="/login"
-                  className="text-sm text-gray-400 hover:text-brand-blue transition-colors"
-                >
-                  {tn('login')}
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Column 3: Categories */}
-          <div>
-            <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">
-              {t('categories')}
-            </h3>
-            <ul className="space-y-2.5">
-              {['Electronics', 'Clothing', 'Home & Kitchen', 'Sports'].map((cat) => (
-                <li key={cat}>
-                  <Link
-                    href={`/products?category=${encodeURIComponent(cat)}`}
-                    className="text-sm text-gray-400 hover:text-brand-blue transition-colors"
-                  >
-                    {cat}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Column 4: Contact */}
-          <div>
-            <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">
-              {t('contact')}
+            <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-6 italic">
+              Company
             </h3>
             <ul className="space-y-3">
-              <li className="flex items-start gap-3">
-                <Phone className="h-4 w-4 text-brand-blue mt-0.5 flex-shrink-0" />
-                <span className="text-sm text-gray-400">{t('phone')}</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <Mail className="h-4 w-4 text-brand-blue mt-0.5 flex-shrink-0" />
-                <span className="text-sm text-gray-400">{t('emailAddress')}</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <MapPin className="h-4 w-4 text-brand-blue mt-0.5 flex-shrink-0" />
-                <span className="text-sm text-gray-400">{t('address')}</span>
-              </li>
+              {[
+                { label: tn('home'), href: '/' },
+                { label: tn('products'), href: '/products' },
+                { label: tn('about'), href: '/about' },
+                // { label: tn('pricing'), href: '/pricing' },
+              ].map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className="text-sm text-gray-400 hover:text-brand-blue transition-colors"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
+          </div>
+
+          {/* Column 3: Customer Service */}
+          <div>
+            <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-6 italic">
+              Customer Service
+            </h3>
+            <ul className="space-y-3">
+              {[
+                { label: 'FAQ', href: '/faq' },
+                { label: 'Support', href: '/support' },
+                { label: 'Delivery', href: '/delivery' },
+                { label: 'Contact', href: '/contact' },
+              ].map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className="text-sm text-gray-400 hover:text-brand-blue transition-colors"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Column 4: Newsletter */}
+          <div>
+            <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-6 italic">
+              {t('newsletter')}
+            </h3>
+            <p className="text-xs text-gray-400 mb-4">{t('newsletterText')}</p>
+            <form className="flex flex-col gap-3" onSubmit={(e) => e.preventDefault()}>
+              <input
+                type="email"
+                placeholder={t('emailPlaceholder')}
+                className="w-full rounded-lg border border-gray-700 bg-gray-800 px-4 py-3 text-sm text-white placeholder:text-gray-500 outline-none focus:border-brand-blue transition-all"
+              />
+              <CustomButton
+                type="submit"
+                className="w-full py-3 text-sm font-bold text-white border-brand-blue bg-brand-blue shadow-lg shadow-brand-blue/10"
+                bgHover="#2d3a7a"
+              >
+                {t('subscribe')}
+              </CustomButton>
+            </form>
           </div>
         </div>
       </div>
@@ -121,12 +108,12 @@ export function Footer() {
             © {year} Kole Tex. {t('rights')}
           </p>
           <div className="flex items-center gap-4">
-            <span className="text-xs text-gray-500 hover:text-gray-400 transition-colors cursor-pointer">
-              {t('privacyPolicy')}
-            </span>
-            <span className="text-xs text-gray-500 hover:text-gray-400 transition-colors cursor-pointer">
-              {t('termsOfService')}
-            </span>
+            <Link href="/privacy-policy" className="text-xs text-gray-500 hover:text-gray-400 transition-colors cursor-pointer">
+              Privacy Policy
+            </Link>
+            <Link href="/terms-conditions" className="text-xs text-gray-500 hover:text-gray-400 transition-colors cursor-pointer">
+              Terms & Conditions
+            </Link>
             <LanguageSwitcher variant="light" direction="up" />
           </div>
         </div>

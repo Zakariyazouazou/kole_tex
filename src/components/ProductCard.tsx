@@ -3,7 +3,7 @@
 import { useCart } from '@/context/CartContext';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
-import { Star } from 'lucide-react';
+import { Star, Heart } from 'lucide-react';
 import { CustomButton } from '@/components/ui/CustomButton';
 import type { Product } from '@/lib/products';
 import { useState } from 'react';
@@ -62,7 +62,6 @@ export function ProductCard({ product }: ProductCardProps) {
             }`}
           />
 
-          {/* Badges */}
           <div className="absolute top-4 left-4 flex flex-col gap-2">
             {product.badge && (
               <span className={`inline-flex items-center rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-white shadow-sm ${
@@ -77,6 +76,18 @@ export function ProductCard({ product }: ProductCardProps) {
               </span>
             )}
           </div>
+
+          {/* Wishlist Button */}
+          <button 
+            className="absolute top-4 right-4 h-8 w-8 md:h-10 md:w-10 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-gray-900 shadow-sm hover:bg-white hover:text-red-500 transition-all cursor-pointer z-10"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+            }}
+            aria-label={t('addToWishlist')}
+          >
+            <Heart className="h-4 w-4 md:h-5 md:w-5" />
+          </button>
 
           {/* "Choose Options" Overlay Button */}
           <div className={`absolute bottom-6 left-1/2 -translate-x-1/2 w-[85%] transition-all duration-500 ease-out transform ${

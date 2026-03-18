@@ -4,5 +4,9 @@ import { routing } from './i18n/routing';
 export default createMiddleware(routing);
 
 export const config = {
-  matcher: ['/', '/(en|fr|de)/:path*']
+  // Match all pathnames except for
+  // - … if they contain a dot, e.g. `favicon.ico`
+  // - api routes
+  // - _next routes
+  matcher: ['/((?!api|_next|.*\\..*).*)']
 };
