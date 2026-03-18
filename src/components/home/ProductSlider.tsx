@@ -65,12 +65,12 @@ export function ProductSlider() {
     { title: 'Cotton Made', tag: 'PUFFERS', img: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=800&h=1000&auto=format&fit=crop' },
     { title: 'Casual Shorts', tag: 'SHORTS', img: 'https://images.unsplash.com/photo-1591195853828-11db59a44f6b?q=80&w=800&h=1000&auto=format&fit=crop' },
     { title: 'Made Cotton', tag: 'FLANNEL', img: 'https://images.unsplash.com/photo-1521223890158-f9f7c3d5d504?q=80&w=800&h=1000&auto=format&fit=crop' },
-    { title: 'Winter Jacket', tag: 'OUTERWEAR', img: 'https://images.unsplash.com/photo-1544923246-77307dd654ca?q=80&w=800&h=1000&auto=format&fit=crop' },
+    { title: 'Winter Jacket', tag: 'OUTERWEAR', img: 'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?q=80&w=800&h=1000&auto=format&fit=crop' },
     { title: 'Classic Denim', tag: 'JEANS', img: 'https://images.unsplash.com/photo-1542272604-787c3835535d?q=80&w=800&h=1000&auto=format&fit=crop' },
     { title: 'Urban Hoodie', tag: 'HOODIES', img: 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=800&h=1000&auto=format&fit=crop' },
     { title: 'Graphic Tee', tag: 'TSHIRTS', img: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?q=80&w=400&h=500&auto=format&fit=crop' },
-    { title: 'Cargo Pants', tag: 'PANTS', img: 'https://images.unsplash.com/photo-1604176354204-926873ff34b1?q=80&w=400&h=500&auto=format&fit=crop' },
-    { title: 'Windbreaker', tag: 'JACKETS', img: 'https://images.unsplash.com/photo-1548883354-94bcfe3211bb?q=80&w=400&h=500&auto=format&fit=crop' },
+    { title: 'Cargo Pants', tag: 'PANTS', img: 'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?q=80&w=800&h=1000&auto=format&fit=crop' },
+    { title: 'Windbreaker', tag: 'JACKETS', img: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=800&h=1000&auto=format&fit=crop' },
   ];
 
   return (
