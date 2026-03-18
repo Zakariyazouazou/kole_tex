@@ -49,7 +49,27 @@
     "newsletterSubtitle": "Subscribe to our newsletter for exclusive deals, new arrivals, and style inspiration delivered to your inbox.",
     "emailPlaceholder": "Enter your email address",
     "subscribe": "Subscribe",
-    "viewAll": "View All Products"
+    "viewAll": "View All Products",
+    "heroPromoLabel": "HOLIDAY '25 COLLECTION",
+    "heroPromoTitle": "Relic Relaxed",
+    "heroPromoCTA": "Shop Collection",
+    "heroVerticalLabel": "NEW ARRIVALS",
+    "heroVerticalTitle": "Vintage Hats",
+    "heroVerticalCTA": "Shop Now",
+    "heroSmall1Title": "Saving 40% Surfing",
+    "heroSmall1Subtitle": "Starting at $100",
+    "heroSmall2Title": "Holiday Seasonal Socks",
+    "heroSmall2Subtitle": "Starting at $20",
+    "shop": "Shop",
+    "categories": {
+      "jackets": "Jackets",
+      "socks": "Socks",
+      "hats": "Hats",
+      "hoodies": "Hoodies",
+      "sweaters": "Sweaters",
+      "puffers": "Puffers",
+      "shorts": "Shorts"
+    }
   },
   "auth": {
     "loginTitle": "Welcome Back",

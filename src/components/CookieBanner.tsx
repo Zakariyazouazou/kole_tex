@@ -104,7 +104,7 @@ export function CookieBanner() {
         CUSTOMIZE MODAL - Responsive centered popup
       */}
             {showCustomize && (
-                <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+                <div className="fixed inset-0 z-60 flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
                     <div
                         className="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden animate-in zoom-in-95 duration-200 flex flex-col max-h-full"
                         onClick={(e) => e.stopPropagation()}

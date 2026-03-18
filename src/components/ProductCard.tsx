@@ -44,7 +44,7 @@ export function ProductCard({ product }: ProductCardProps) {
     >
       <div className="relative overflow-visible">
         {/* Image Container */}
-        <div className="relative rounded-2xl overflow-hidden aspect-[4/5] bg-[#F3F4F6]">
+        <div className="relative rounded-2xl overflow-hidden aspect-4/5 bg-[#F3F4F6]">
           {/* Base Image */}
           <img
             src={product.image}
@@ -83,7 +83,7 @@ export function ProductCard({ product }: ProductCardProps) {
             hovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
           }`}>
             <CustomButton
-              className="w-full bg-white text-gray-900 border-none py-4 rounded-full font-bold shadow-xl hover:bg-gray-50 text-sm"
+              className="w-full bg-white text-gray-900 border-none py-2.5 md:py-4 rounded-full font-bold shadow-xl hover:bg-gray-50 text-[10px] md:text-sm"
               onClick={handleAddToCart}
             >
               Choose Options
@@ -92,20 +92,20 @@ export function ProductCard({ product }: ProductCardProps) {
         </div>
 
         {/* Product Details */}
-        <div className="mt-4 space-y-1">
-          <p className="text-[11px] font-bold text-gray-500 uppercase tracking-widest">
+        <div className="mt-3 md:mt-4 space-y-0.5 md:space-y-1">
+          <p className="text-[9px] md:text-[11px] font-bold text-gray-500 uppercase tracking-widest">
             {product.subcategory || product.category}
           </p>
-          <h3 className="text-base font-bold text-gray-900 line-clamp-1 group-hover:text-brand-blue transition-colors">
+          <h3 className="text-sm md:text-base font-bold text-gray-900 line-clamp-1 group-hover:text-brand-blue transition-colors">
             {product.name}
           </h3>
           
-          <div className="flex items-center gap-2 pt-0.5">
-            <span className="text-base font-bold text-gray-900">
+          <div className="flex items-center gap-1.5 md:gap-2 pt-0.5">
+            <span className="text-sm md:text-base font-bold text-gray-900">
               ${product.price.toFixed(2)}
             </span>
             {product.originalPrice && (
-              <span className="text-sm text-gray-400 line-through">
+              <span className="text-[11px] md:text-sm text-gray-400 line-through">
                 ${product.originalPrice.toFixed(2)}
               </span>
             )}
@@ -113,9 +113,8 @@ export function ProductCard({ product }: ProductCardProps) {
 
           {/* Color Swatches */}
           {product.variants?.colors && product.variants.colors.length > 0 && (
-            <div className="flex items-center gap-2 mt-3">
+            <div className="flex items-center gap-1.5 md:gap-2 mt-2 md:mt-3">
               {product.variants.colors.map((color) => {
-                // simple mapping for common colors or use hex if provided
                 const colorMap: Record<string, string> = {
                   'Black': '#000000',
                   'White': '#FFFFFF',
@@ -148,7 +147,7 @@ export function ProductCard({ product }: ProductCardProps) {
                 return (
                   <div
                     key={color}
-                    className="h-5 w-5 rounded-[4px] border border-gray-200 shadow-xs"
+                    className="h-3.5 w-3.5 md:h-5 md:w-5 rounded-[3px] md:rounded-[4px] border border-gray-200 shadow-xs"
                     style={{ backgroundColor: colorMap[color] || color.toLowerCase() }}
                     title={color}
                   />
@@ -158,12 +157,12 @@ export function ProductCard({ product }: ProductCardProps) {
           )}
 
           {/* Rating */}
-          <div className="flex items-center gap-1.5 pt-2">
+          <div className="flex items-center gap-1 md:gap-1.5 pt-1.5 md:pt-2">
             <div className="flex">
               {[...Array(5)].map((_, i) => (
                 <Star
                   key={i}
-                  className={`h-3 w-3 ${
+                  className={`h-2.5 w-2.5 md:h-3 md:w-3 ${
                     i < Math.floor(product.rating)
                       ? 'fill-gray-900 text-gray-900'
                       : 'text-gray-200'
@@ -171,7 +170,7 @@ export function ProductCard({ product }: ProductCardProps) {
                 />
               ))}
             </div>
-            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">
+            <span className="text-[9px] md:text-[10px] font-bold text-gray-400 uppercase tracking-tighter">
               {product.inStock ? t('inStock') : t('outOfStock')}
             </span>
           </div>
