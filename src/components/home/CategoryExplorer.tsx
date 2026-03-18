@@ -18,7 +18,7 @@ export function CategoryExplorer() {
   ];
 
   return (
-    <section className="py-12 bg-white">
+    <section className="py-5 lg:py-12  bg-white">
       <div className="mx-auto max-w-[1440px] px-4">
         <div className="flex gap-4 lg:gap-6 overflow-x-auto pb-6 -mx-4 px-4 touch-pan-x [ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {categories.map((cat, i) => (

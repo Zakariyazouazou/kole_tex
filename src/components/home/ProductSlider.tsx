@@ -74,7 +74,7 @@ export function ProductSlider() {
   ];
 
   return (
-    <section className="py-16 bg-white overflow-hidden">
+    <section className="py-7 lg:py-16 bg-white overflow-hidden">
       {/* Header - Constrained */}
       <div className="mx-auto max-w-[1440px] px-4 mb-12 text-center">
         <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500 mb-2 block">
@@ -141,7 +141,7 @@ export function ProductSlider() {
 
         {/* Navigation & Progress Bar */}
         <div className='w-full flex justify-center '>
-          <div className="mt-8 pt-8 relative w-[90vw] lg:w-[80vw]">
+          <div className="mt-1 lg:mt-8 pt-1 lg:pt-8 relative w-[90vw] lg:w-[80vw]">
 
             {/* Progress Bar Background */}
             <div

@@ -53,7 +53,7 @@ export function FlashSaleBanner() {
 
   return (
     <section className="overflow-hidden">
-      <div className="mx-auto py-6 mb-8 bg-gray-50 border-y border-gray-100 max-w-[1440px] px-4 flex flex-col md:flex-row items-center justify-between gap-6 rounded-md">
+      <div className="mx-auto py-3 lg:py-6 mb-8 bg-gray-50 border-y border-gray-100 max-w-[1440px] px-4 flex flex-col md:flex-row items-center justify-between gap-6 rounded-md">
         
         {/* Label */}
         <div className="flex-none">

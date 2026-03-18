@@ -12,7 +12,7 @@ export function FeaturedProducts() {
   const featured = getFeaturedProducts();
 
   return (
-    <section className="py-16">
+    <section className="py-7 lg:py-16">
       <div className="mx-auto max-w-[1440px] px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-gray-900">{t('featuredProducts')}</h2>

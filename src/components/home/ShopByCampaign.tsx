@@ -56,7 +56,7 @@ const campaigns: CampaignCard[] = [
 
 export function ShopByCampaign() {
   return (
-    <section className="py-16 bg-white overflow-hidden">
+    <section className="py-7 lg:py-16 bg-white overflow-hidden">
       <div className="mx-auto max-w-[1440px] px-4">
 
         {/* Header */}

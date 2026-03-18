@@ -9,7 +9,7 @@ export function HeroBanners() {
   const t = useTranslations('home');
 
   return (
-    <section className="pt-6 pb-12">
+    <section className="pt-6 pb-2 lg:pb-12">
       <div className="mx-auto max-w-[1440px] px-4">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4 lg:gap-6 lg:min-h-[600px]">
           
