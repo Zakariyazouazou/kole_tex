@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations, useLocale } from 'next-intl';
-import { Link } from '@/i18n/navigation';
+import { Link, usePathname } from '@/i18n/navigation';
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { AccountDropdown } from '@/components/AccountDropdown';
 import { WishlistIcon } from '@/components/WishlistIcon';
@@ -24,6 +24,7 @@ import { MobileSideMenu } from './header/MobileSideMenu';
 export function Header() {
   const t = useTranslations('nav');
   const locale = useLocale();
+  const pathname = usePathname();
 
   // Shared state logic
   const [cartOpen, setCartOpen] = useState(false);
@@ -45,6 +46,22 @@ export function Header() {
     onScroll();
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  // Reset scroll state on route change
+  useEffect(() => {
+    // 1. Force state to false immediately
+    setScrolled(false);
+    
+    // 2. Ensure we're at the top (Next.js does this but let's be safe)
+    window.scrollTo(0, 0);
+    
+    // 3. Small buffer to catch any late scroll events from the previous page
+    const timer = setTimeout(() => {
+      setScrolled(window.scrollY > 10);
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [pathname]);
 
   // Sync desktop nav with scroll state
   useEffect(() => {
