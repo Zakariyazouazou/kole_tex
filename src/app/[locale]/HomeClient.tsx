@@ -6,9 +6,12 @@ import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { HeroBanners } from '@/components/home/HeroBanners';
 import { CategoryExplorer } from '@/components/home/CategoryExplorer';
+import { ShopByCampaign } from '@/components/home/ShopByCampaign';
 import { FlashSaleBanner } from '@/components/home/FlashSaleBanner';
 import { FeaturedProducts } from '@/components/home/FeaturedProducts';
 import { ProductSlider } from '@/components/home/ProductSlider';
+import Edition from '@/components/home/Edition';
+import DualSlider from '@/components/home/DualSlider';
 
 export function HomeClient() {
   const t = useTranslations('home');
@@ -38,7 +41,14 @@ export function HomeClient() {
       {/* 5. Product Slider (New High-End Slider) */}
       <ProductSlider />
 
+      {/* 6. Shop By Campaign Section */}
+      <ShopByCampaign />
 
+      {/* 7. Edition Section */}
+      <Edition />
+
+      {/* 8. Dual Slider Section */}
+      <DualSlider />
 
       {/* 6. Testimonials */}
       <section className="py-16 bg-white">
