@@ -1,22 +1,17 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { Link } from '@/i18n/navigation';
-import { ProductCard } from '@/components/ProductCard';
-import { getFeaturedProducts } from '@/lib/products';
-import {
-  Star,
-  ArrowRight,
-  Mail,
-} from 'lucide-react';
+import { Mail, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { HeroBanners } from '@/components/home/HeroBanners';
 import { CategoryExplorer } from '@/components/home/CategoryExplorer';
+import { FlashSaleBanner } from '@/components/home/FlashSaleBanner';
+import { FeaturedProducts } from '@/components/home/FeaturedProducts';
+import { ProductSlider } from '@/components/home/ProductSlider';
 
 export function HomeClient() {
   const t = useTranslations('home');
-  const featured = getFeaturedProducts();
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
 
@@ -28,40 +23,24 @@ export function HomeClient() {
 
   return (
     <div className="bg-white">
-      {/* Hero Banners Section (Split into separate component) */}
+      {/* 1. Hero Banners Section */}
       <HeroBanners />
 
-      {/* Categories Section (Split into separate component) */}
+      {/* 2. Categories Section */}
       <CategoryExplorer />
 
-      {/* Featured Products */}
-      <section className="py-16 bg-gray-50">
-        <div className="mx-auto max-w-[1440px] px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900">{t('featuredProducts')}</h2>
-            <p className="mt-2 text-gray-500">{t('featuredSubtitle')}</p>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-            {featured.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
-          <div className="mt-10 text-center">
-            <Link href="/products">
-              <Button
-                variant="outline"
-                size="lg"
-                className="border-brand-blue text-brand-blue hover:bg-brand-blue-light rounded-full px-8 cursor-pointer"
-              >
-                {t('viewAll')}
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
+      {/* 3. Flash Sale Countdown */}
+      <FlashSaleBanner />
 
-      {/* Testimonials */}
+      {/* 4. Featured Products (Grid) */}
+      <FeaturedProducts />
+
+      {/* 5. Product Slider (New High-End Slider) */}
+      <ProductSlider />
+
+
+
+      {/* 6. Testimonials */}
       <section className="py-16 bg-white">
         <div className="mx-auto max-w-[1440px] px-4">
           <div className="text-center mb-12">
@@ -97,7 +76,7 @@ export function HomeClient() {
         </div>
       </section>
 
-      {/* Newsletter */}
+      {/* 7. Newsletter */}
       <section className="py-16 bg-brand-blue">
         <div className="mx-auto max-w-[1440px] px-4 text-center">
           <Mail className="h-10 w-10 text-white/80 mx-auto mb-4" />

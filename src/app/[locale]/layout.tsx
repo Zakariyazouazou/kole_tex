@@ -36,8 +36,8 @@ export default async function LocaleLayout({
               <main className="flex-1">{children}</main>
                 <Footer />
                 <ScrollToTop />
-                <PromoModal />
-                <CookieBanner />
+                {/* <PromoModal />
+                <CookieBanner /> */}
               </div>
           </AppProvider>
         </NextIntlClientProvider>
