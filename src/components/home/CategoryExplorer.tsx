@@ -24,7 +24,7 @@ export function CategoryExplorer() {
           {categories.map((cat, i) => (
             <Link 
               key={i} 
-              href={`/products?category=${cat.name}`}
+              href={`/products`}
               className="flex-none w-[180px] lg:w-[220px] group border border-gray-100 rounded-none overflow-hidden transition-all hover:shadow-xl hover:border-gray-200"
             >
               <div className="aspect-square overflow-hidden bg-gray-50 rounded-none">

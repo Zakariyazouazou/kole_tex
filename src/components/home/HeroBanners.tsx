@@ -53,7 +53,7 @@ export function HeroBanners() {
               <h3 className="text-2xl lg:text-3xl font-bold text-white mb-6 leading-tight">
                 {t('heroVerticalTitle')}
               </h3>
-              <Link href="/products?category=Accessories">
+              <Link href="/products">
                 <CustomButton 
                   className="bg-white text-gray-900 border-none px-8 py-3.5 shadow-xl hover:bg-gray-50 font-bold"
                 >

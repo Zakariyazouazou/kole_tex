@@ -120,7 +120,7 @@ export function MobileSideMenu({
               >
                 <div className="pl-4 pb-1">
                   <Link
-                    href={`/products?category=${encodeURIComponent(cat.name)}`}
+                    href={`/products`}
                     onClick={() => setMobileMenuOpen(false)}
                     className="block rounded-lg px-4 py-2.5 text-sm font-medium text-brand-blue hover:bg-brand-blue-light"
                   >
@@ -129,7 +129,7 @@ export function MobileSideMenu({
                   {cat.subcategories.map((sub) => (
                     <Link
                       key={sub.slug}
-                      href={`/products?category=${encodeURIComponent(cat.name)}`}
+                      href={`/products`}
                       onClick={() => setMobileMenuOpen(false)}
                       className="block rounded-lg px-4 py-2.5 text-sm text-gray-500 hover:bg-brand-blue-light hover:text-brand-blue"
                     >

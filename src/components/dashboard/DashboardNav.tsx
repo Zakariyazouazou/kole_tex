@@ -43,7 +43,7 @@ export function DashboardNav() {
   ];
 
   return (
-    <nav className="flex lg:flex-col items-center lg:items-stretch justify-around lg:justify-start w-full lg:space-y-1 bg-white lg:bg-transparent border-t lg:border-t-0 border-gray-100 lg:border-none p-2 lg:p-0">
+    <nav className="flex lg:flex-col items-center lg:items-stretch justify-between lg:justify-start w-full lg:space-y-1 bg-white lg:bg-transparent border-t lg:border-t-0 border-gray-100 lg:border-none py-2  lg:p-0">
       {navItems.map((item) => (
         <Link
           key={item.href}
