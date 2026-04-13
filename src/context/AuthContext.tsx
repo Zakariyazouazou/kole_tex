@@ -8,108 +8,139 @@ import {
   ReactNode,
   useCallback,
 } from 'react';
+import { publicApi, protectedApi, setAccessToken } from '@/api';
 import { loadFromStorage, saveToStorage } from '@/lib/storage';
+import type {
+  User,
+  AuthState,
+  LoginPayload,
+  RegisterPayload,
+  VerifyEmailPayload,
+  ChangePasswordPayload,
+  MessageResponse,
+} from '@/types/auth.types';
 
-export interface User {
-  name: string;
-  email: string;
-  phone?: string;
-  company?: string;
-  address?: string;
-  city?: string;
-  postalCode?: string;
-  country?: string;
+// Re-export User for backward-compat with AppContext
+export type { User };
+
+const USER_STORAGE_KEY = 'auth_user';
+
+interface AuthContextType extends AuthState {
+  isAdmin: boolean;
+  login: (data: LoginPayload) => Promise<User>;
+  register: (data: RegisterPayload) => Promise<MessageResponse>;
+  verifyEmail: (data: VerifyEmailPayload) => Promise<MessageResponse>;
+  resendVerification: (data: { email: string }) => Promise<MessageResponse>;
+  forgotPassword: (data: { email: string }) => Promise<MessageResponse>;
+  changePassword: (data: ChangePasswordPayload) => Promise<MessageResponse>;
+  logout: () => Promise<void>;
+  googleLogin: (idToken: string) => Promise<User>;
+  updateUser: (user: User) => void;
 }
 
-interface AuthContextType {
-  user: User | null;
-  isAuthenticated: boolean;
-  login: (email: string, password: string) => void;
-  loginWithGoogle: () => void;
-  register: (data: Partial<User> & { email: string; name: string }) => void;
-  logout: () => void;
-  updateUser: (data: Partial<User>) => void;
-}
-
-const AuthContext = createContext<AuthContextType>({} as AuthContextType);
+const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-  const [hydrated, setHydrated] = useState(false);
+  const [state, setState] = useState<AuthState>({
+    user: null,
+    isAuthenticated: false,
+    isLoading: true,
+  });
 
+  // Silent refresh on mount — restores session from the httpOnly refresh cookie.
+  // User data is rehydrated from localStorage (non-sensitive profile cache).
   useEffect(() => {
-    setUser(loadFromStorage<User | null>('ecom_user', null));
-    setHydrated(true);
+    const cachedUser = loadFromStorage<User | null>(USER_STORAGE_KEY, null);
+
+    publicApi
+      .refresh()
+      .then(({ accessToken }) => {
+        setAccessToken(accessToken);
+        setState({ user: cachedUser, isAuthenticated: true, isLoading: false });
+      })
+      .catch(() => {
+        setAccessToken(null);
+        localStorage.removeItem(USER_STORAGE_KEY);
+        setState({ user: null, isAuthenticated: false, isLoading: false });
+      });
   }, []);
 
-  useEffect(() => {
-    if (!hydrated) return;
-    saveToStorage('ecom_user', user);
-  }, [user, hydrated]);
-
-  const login = useCallback((_email: string, _password: string) => {
-    const mockUser: User = {
-      name: 'John Doe',
-      email: _email,
-      phone: '+1 555-0123',
-      address: '123 Main Street',
-      city: 'New York',
-      postalCode: '10001',
-      country: 'US',
-    };
-    setUser(mockUser);
-  }, []);
-
-  const loginWithGoogle = useCallback(() => {
-    const mockGoogleUser: User = {
-      name: 'Jane Smith',
-      email: 'jane.smith@gmail.com',
-      phone: '+1 555-0456',
-      company: 'Google Inc.',
-      address: '1600 Amphitheatre Parkway',
-      city: 'Mountain View',
-      postalCode: '94043',
-      country: 'US',
-    };
-    setUser(mockGoogleUser);
+  const login = useCallback(async (data: LoginPayload): Promise<User> => {
+    const res = await publicApi.login(data);
+    setAccessToken(res.accessToken);
+    saveToStorage(USER_STORAGE_KEY, res.user);
+    setState({ user: res.user, isAuthenticated: true, isLoading: false });
+    return res.user;
   }, []);
 
   const register = useCallback(
-    (data: Partial<User> & { email: string; name: string }) => {
-      const newUser: User = {
-        name: data.name,
-        email: data.email,
-        phone: data.phone,
-        company: data.company,
-        address: data.address,
-        city: data.city,
-        postalCode: data.postalCode,
-        country: data.country,
-      };
-      setUser(newUser);
-    },
+    (data: RegisterPayload): Promise<MessageResponse> =>
+      publicApi.register(data),
     []
   );
 
-  const logout = useCallback(() => {
-    setUser(null);
+  const verifyEmail = useCallback(
+    (data: VerifyEmailPayload): Promise<MessageResponse> =>
+      publicApi.verifyEmail(data),
+    []
+  );
+
+  const resendVerification = useCallback(
+    (data: { email: string }): Promise<MessageResponse> =>
+      publicApi.resendVerification(data),
+    []
+  );
+
+  const forgotPassword = useCallback(
+    (data: { email: string }): Promise<MessageResponse> =>
+      publicApi.forgotPassword(data),
+    []
+  );
+
+  const changePassword = useCallback(
+    (data: ChangePasswordPayload): Promise<MessageResponse> =>
+      protectedApi.changePassword(data),
+    []
+  );
+
+  const logout = useCallback(async (): Promise<void> => {
+    try {
+      await protectedApi.logout();
+    } finally {
+      setAccessToken(null);
+      localStorage.removeItem(USER_STORAGE_KEY);
+      setState({ user: null, isAuthenticated: false, isLoading: false });
+    }
   }, []);
 
-  const updateUser = useCallback((data: Partial<User>) => {
-    setUser((prev) => (prev ? { ...prev, ...data } : null));
+  const googleLogin = useCallback(async (idToken: string): Promise<User> => {
+    const res = await publicApi.googleAuth({ idToken });
+    setAccessToken(res.accessToken);
+    saveToStorage(USER_STORAGE_KEY, res.user);
+    setState({ user: res.user, isAuthenticated: true, isLoading: false });
+    return res.user;
   }, []);
 
-  const isAuthenticated = !!user;
+  const updateUser = useCallback((updatedUser: User): void => {
+    saveToStorage(USER_STORAGE_KEY, updatedUser);
+    setState((prev) => ({ ...prev, user: updatedUser }));
+  }, []);
+
+  const isAdmin = state.user?.role === 'ADMIN';
 
   return (
     <AuthContext.Provider
       value={{
-        user,
-        isAuthenticated,
+        ...state,
+        isAdmin,
         login,
-        loginWithGoogle,
         register,
+        verifyEmail,
+        resendVerification,
+        forgotPassword,
+        changePassword,
         logout,
+        googleLogin,
         updateUser,
       }}
     >
@@ -118,4 +149,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 }
 
-export const useAuth = () => useContext(AuthContext);
+export function useAuth(): AuthContextType {
+  const ctx = useContext(AuthContext);
+  if (!ctx) {
+    throw new Error('useAuth must be used inside <AuthProvider>');
+  }
+  return ctx;
+}
+

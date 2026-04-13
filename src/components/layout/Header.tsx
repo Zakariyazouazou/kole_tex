@@ -39,25 +39,45 @@ export function Header() {
   const [desktopNavOpen, setDesktopNavOpen] = useState<boolean>(false);
   const [mobileAccordion, setMobileAccordion] = useState<string | null>(null);
 
-  // Scroll detection logic
+  // Scroll detection with a transition lock:
+  // After any state flip, ignore scroll events for 600 ms so that the
+  // browser's scroll-anchoring adjustment (caused by the header shrinking)
+  // cannot immediately trigger the opposite state and create a flicker loop.
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 10);
+    let locked = false;
+    let lockTimer: ReturnType<typeof setTimeout> | null = null;
+
+    const lock = () => {
+      if (lockTimer) clearTimeout(lockTimer);
+      locked = true;
+      lockTimer = setTimeout(() => { locked = false; }, 600);
+    };
+
+    const onScroll = () => {
+      if (locked) return;
+      const y = window.scrollY;
+      setScrolled((prev) => {
+        if (!prev && y > 1) { lock(); return true; }   // collapse at any meaningful scroll
+        if (prev && y === 0) { lock(); return false; }  // restore only when truly at top
+        return prev;
+      });
+    };
+
     window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener('scroll', onScroll);
+    setScrolled(window.scrollY > 1);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (lockTimer) clearTimeout(lockTimer);
+    };
   }, []);
 
   // Reset scroll state on route change
   useEffect(() => {
-    // 1. Force state to false immediately
     setScrolled(false);
-    
-    // 2. Ensure we're at the top (Next.js does this but let's be safe)
     window.scrollTo(0, 0);
-    
-    // 3. Small buffer to catch any late scroll events from the previous page
+
     const timer = setTimeout(() => {
-      setScrolled(window.scrollY > 10);
+      setScrolled(window.scrollY > 1);
     }, 100);
 
     return () => clearTimeout(timer);

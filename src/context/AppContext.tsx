@@ -1,9 +1,10 @@
 'use client';
 
 import { ReactNode } from 'react';
-import { AuthProvider, useAuth, User } from './AuthContext';
+import { AuthProvider, useAuth } from './AuthContext';
 import { CartProvider, useCart, CartItem } from './CartContext';
 import { OrderProvider, useOrders, Order } from './OrderContext';
+import type { User } from '@/types/auth.types';
 
 // Re-export types for backward compatibility
 export type { User, CartItem, Order };

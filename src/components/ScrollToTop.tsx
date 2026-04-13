@@ -31,7 +31,9 @@ export function ScrollToTop() {
   return (
     <button
       onClick={scrollToTop}
-      className={`fixed ${isDashboard ? 'bottom-28' : 'bottom-50'} right-2 lg:bottom-5 lg:right-5 z-40 p-3 rounded-full bg-brand-blue text-white shadow-lg transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer ${
+      className={`fixed right-4 lg:bottom-5 lg:right-5 z-40 p-3 rounded-full bg-brand-blue text-white shadow-lg transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer ${
+        isDashboard ? 'bottom-20' : 'bottom-6'
+      } ${
         visible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0 pointer-events-none'
       }`}
       aria-label="Scroll to top"
