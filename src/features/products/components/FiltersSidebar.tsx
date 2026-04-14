@@ -240,7 +240,7 @@ export function FiltersSidebar({ availableFilters, filters, onFiltersChange, isM
   );
 
   const clearAll = () => {
-    onFiltersChange({ page: 1, limit: filters.limit, categorySlug: filters.categorySlug, subCategorySlug: filters.subCategorySlug });
+    onFiltersChange({ page: 1, limit: filters.limit });
   };
 
   const hasActiveFilters = !!(
@@ -308,8 +308,10 @@ export function FiltersSidebar({ availableFilters, filters, onFiltersChange, isM
 
   return (
     <>
-      <aside className="hidden lg:block w-60 shrink-0">
-        <div className="sticky top-24 rounded-2xl border border-gray-100 bg-white p-4 shadow-sm">{content}</div>
+      <aside className="hidden lg:block w-60 shrink-0 sticky top-24 self-start">
+        <div className="max-h-[calc(100vh-7rem)] overflow-y-auto rounded-2xl border border-gray-100 bg-white p-4 shadow-sm scrollbar-hide">
+          {content}
+        </div>
       </aside>
       {isMobileOpen && (
         <div className="fixed inset-0 z-50 flex lg:hidden">

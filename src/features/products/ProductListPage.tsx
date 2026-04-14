@@ -134,6 +134,27 @@ export function ProductListPage() {
     setSearchQuery,
   } = useProducts(getInitialFilters());
 
+  // Keep filters in sync when the user navigates here via a header category link
+  // (client-side navigation changes searchParams but doesn't remount this component)
+  const filtersRef = useRef(filters);
+  filtersRef.current = filters;
+  useEffect(() => {
+    const newCategorySlug = searchParams.get('categorySlug') || undefined;
+    const newSubCategorySlug = searchParams.get('subCategorySlug') || undefined;
+    if (
+      newCategorySlug !== filtersRef.current.categorySlug ||
+      newSubCategorySlug !== filtersRef.current.subCategorySlug
+    ) {
+      setFilters({
+        page: 1,
+        limit: filtersRef.current.limit ?? 24,
+        categorySlug: newCategorySlug,
+        subCategorySlug: newSubCategorySlug,
+      });
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
+
   // ── Sync filters → URL ────────────────────────────────────────────────────
   const syncToUrl = useCallback(
     (f: ProductFilters) => {
@@ -199,18 +220,41 @@ export function ProductListPage() {
 
           {/* Main content */}
           <div className="flex-1 min-w-0">
-            {/* Top bar */}
-            <div className="rounded-2xl border border-gray-100 bg-white px-4 py-3 shadow-sm mb-5 flex flex-wrap items-center gap-3">
+            {/* Top bar - Mobile version */}
+            <div className="lg:hidden rounded-2xl border border-gray-100 bg-white px-4 py-3 shadow-sm mb-5 flex flex-wrap items-center gap-3">
               {/* Mobile filter toggle */}
               <button
                 type="button"
                 onClick={() => setMobileFiltersOpen(true)}
-                className="lg:hidden flex items-center gap-1.5 rounded-lg border border-gray-200 px-3 py-1.5 text-sm text-gray-700 hover:border-brand-blue hover:text-brand-blue transition-colors"
+                className="flex items-center gap-1.5 rounded-lg border border-gray-200 px-3 py-1.5 text-sm text-gray-700 hover:border-brand-blue hover:text-brand-blue transition-colors"
               >
                 <SlidersHorizontal className="h-4 w-4" />
                 Filters
               </button>
 
+              {/* Search */}
+              <div className="relative flex-1 min-w-40">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <Input
+                  placeholder="Search products… (min 2 chars)"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-9 pr-8 h-9 text-sm"
+                />
+                {searchQuery && (
+                  <button
+                    type="button"
+                    onClick={() => setSearchQuery('')}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Top bar - Desktop */}
+            <div className="hidden lg:flex rounded-2xl border border-gray-100 bg-white px-4 py-3 shadow-sm mb-5 flex-wrap items-center gap-3">
               {/* Search */}
               <div className="relative flex-1 min-w-40">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />

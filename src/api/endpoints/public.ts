@@ -14,6 +14,8 @@ import type {
   ProductListResponse,
   ProductFiltersResponse,
   ProductDetail,
+  CategoriesResponse,
+  Category,
 } from '@/types/product.types';
 
 export function register(data: RegisterPayload): Promise<MessageResponse> {
@@ -76,10 +78,16 @@ export function googleAuth(data: {
 // ─── Products (public — no token required) ────────────────────────────────────
 
 export function getProducts(params: GetProductsParams): Promise<ProductListResponse> {
+  const safeParams = {
+    ...params,
+    ...(params.categorySlug !== undefined && { categorySlug: params.categorySlug }),
+    ...(params.categorySlug !== undefined && params.subCategorySlug === undefined && { subCategorySlug: '' }),
+  };
+
   return apiClient
     .get<{ data: ProductListResponse['data']; pagination: ProductListResponse['pagination'] }>(
       API_ENDPOINTS.PRODUCTS.LIST,
-      { params }
+      { params: safeParams }
     )
     .then((r) => r.data);
 }
@@ -87,6 +95,12 @@ export function getProducts(params: GetProductsParams): Promise<ProductListRespo
 export function getProductFilters(
   params: GetFiltersParams
 ): Promise<ProductFiltersResponse> {
+  const safeParams = {
+    ...params,
+    ...(params.categorySlug !== undefined && { categorySlug: params.categorySlug }),
+    ...(params.categorySlug !== undefined && params.subCategorySlug === undefined && { subCategorySlug: '' }),
+  };
+
   return apiClient
     .get<{
       colors: { hex: string; name?: string; label?: string; count: number }[];
@@ -95,7 +109,7 @@ export function getProductFilters(
       priceRange: { min: number; max: number };
       organic?: { count: number };
       recycled?: { count: number };
-    }>(API_ENDPOINTS.PRODUCTS.FILTERS, { params })
+    }>(API_ENDPOINTS.PRODUCTS.FILTERS, { params: safeParams })
     .then((r) => {
       const raw = r.data;
       return {
@@ -127,4 +141,23 @@ export function getProductDetail(
     })
     .then((r) => r.data);
 }
+
+// ─── Categories (public — no token required) ──────────────────────────────────
+
+export function getCategories(lang: string): Promise<Category[]> {
+  return apiClient
+    .get<CategoriesResponse | Category[]>(API_ENDPOINTS.CATEGORIES, { params: { lang } })
+    .then((r) => {
+      const data = r.data;
+      // Handle both { data: [...] } and [...] response formats
+      if (Array.isArray(data)) {
+        return data;
+      } else if (data && 'data' in data && Array.isArray(data.data)) {
+        return data.data;
+      }
+      console.warn('Unexpected categories response format:', data);
+      return [];
+    });
+}
+
 

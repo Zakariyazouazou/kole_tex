@@ -82,6 +82,24 @@ export interface ProductFiltersResponse {
   recycled?: { count: number };
 }
 
+// ─── Categories and Subcategories ─────────────────────────────────────────────
+export interface Subcategory {
+  id: string;
+  slug: string;
+  name: string;
+}
+
+export interface Category {
+  id: string;
+  slug: string;
+  name: string;
+  subcategories: Subcategory[];
+}
+
+export interface CategoriesResponse {
+  data: Category[];
+}
+
 // ─── Query param types ────────────────────────────────────────────────────────
 export interface GetProductsParams {
   lang: string;

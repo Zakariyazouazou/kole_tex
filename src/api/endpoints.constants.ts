@@ -30,6 +30,9 @@ export const API_ENDPOINTS = {
     BY_CATALOG_REF: (catalogReference: string) => `/products/${catalogReference}`,
   },
 
+  // ─── Public categories ───────────────────────────────────────────────────
+  CATEGORIES: '/categories',
+
   // ─── Admin ───────────────────────────────────────────────────────────────
   ADMIN: {
     DASHBOARD: '/admin/dashboard',

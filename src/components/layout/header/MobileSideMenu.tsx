@@ -2,9 +2,9 @@
 
 import { Link } from '@/i18n/navigation';
 import { Search, ChevronDown } from 'lucide-react';
-import { categories } from '@/lib/categories';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { FacebookIcon, XIcon, InstagramIcon, TikTokIcon } from '@/components/icons/SocialIcons';
+import type { Category } from '@/types/product.types';
 
 interface MobileSideMenuProps {
   mobileMenuOpen: boolean;
@@ -14,6 +14,7 @@ interface MobileSideMenuProps {
   handleSearch: (e: React.FormEvent) => void;
   mobileAccordion: string | null;
   toggleMobileAccordion: (slug: string) => void;
+  apiCategories: Category[];
 }
 
 export function MobileSideMenu({
@@ -24,6 +25,7 @@ export function MobileSideMenu({
   handleSearch,
   mobileAccordion,
   toggleMobileAccordion,
+  apiCategories,
 }: MobileSideMenuProps) {
   return (
     <>
@@ -97,60 +99,64 @@ export function MobileSideMenu({
             Home
           </Link>
 
-          {/* Accordion categories */}
-          {categories.map((cat) => (
-            <div key={cat.slug}>
-              <button
-                onClick={() => toggleMobileAccordion(cat.slug)}
-                className="flex items-center justify-between w-full rounded-lg px-4 py-3 text-sm font-medium text-gray-700 hover:bg-brand-blue-light hover:text-brand-blue transition-colors cursor-pointer"
-              >
-                {cat.name}
-                <ChevronDown
-                  className={`h-4 w-4 text-gray-400 transition-transform duration-300 ${
-                    mobileAccordion === cat.slug ? 'rotate-180' : ''
-                  }`}
-                />
-              </button>
-              <div
-                className="overflow-hidden transition-all duration-300 ease-in-out"
-                style={{
-                  maxHeight: mobileAccordion === cat.slug ? (cat.subcategories.length + 1) * 44 : 0,
-                  opacity: mobileAccordion === cat.slug ? 1 : 0,
-                }}
-              >
-                <div className="pl-4 pb-1">
-                  <Link
-                    href={`/products`}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="block rounded-lg px-4 py-2.5 text-sm font-medium text-brand-blue hover:bg-brand-blue-light"
+          {/* API categories accordion — all categories shown on mobile */}
+          {apiCategories.map((cat) => (
+            <div key={cat.id}>
+              {cat.subcategories.length > 0 ? (
+                <>
+                  <button
+                    onClick={() => toggleMobileAccordion(cat.slug)}
+                    className="flex items-center justify-between w-full rounded-lg px-4 py-3 text-sm font-medium text-gray-700 hover:bg-brand-blue-light hover:text-brand-blue transition-colors cursor-pointer"
                   >
-                    Shop All
-                  </Link>
-                  {cat.subcategories.map((sub) => (
-                    <Link
-                      key={sub.slug}
-                      href={`/products`}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="block rounded-lg px-4 py-2.5 text-sm text-gray-500 hover:bg-brand-blue-light hover:text-brand-blue"
-                    >
-                      {sub.name}
-                    </Link>
-                  ))}
-                </div>
-              </div>
+                    {cat.name}
+                    <ChevronDown
+                      className={`h-4 w-4 text-gray-400 transition-transform duration-300 ${
+                        mobileAccordion === cat.slug ? 'rotate-180' : ''
+                      }`}
+                    />
+                  </button>
+                  <div
+                    className="overflow-hidden transition-all duration-300 ease-in-out"
+                    style={{
+                      maxHeight: mobileAccordion === cat.slug ? (cat.subcategories.length + 1) * 44 : 0,
+                      opacity: mobileAccordion === cat.slug ? 1 : 0,
+                    }}
+                  >
+                    <div className="pl-4 pb-1">
+                      <Link
+                        href={`/products?categorySlug=${cat.slug}`}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="block rounded-lg px-4 py-2.5 text-sm font-medium text-brand-blue hover:bg-brand-blue-light"
+                      >
+                        Shop All
+                      </Link>
+                      {cat.subcategories.map((sub) => (
+                        <Link
+                          key={sub.id}
+                          href={`/products?categorySlug=${cat.slug}&subCategorySlug=${sub.slug}`}
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="block rounded-lg px-4 py-2.5 text-sm text-gray-500 hover:bg-brand-blue-light hover:text-brand-blue"
+                        >
+                          {sub.name}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              ) : (
+                /* Category with no subcategories — direct link */
+                <Link
+                  href={`/products?categorySlug=${cat.slug}`}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block rounded-lg px-4 py-3 text-sm font-medium text-gray-700 hover:bg-brand-blue-light hover:text-brand-blue"
+                >
+                  {cat.name}
+                </Link>
+              )}
             </div>
           ))}
-
-          <Link
-            href="/products"
-            onClick={() => setMobileMenuOpen(false)}
-            className="block rounded-lg px-4 py-3 text-sm font-bold text-yellow-600 hover:bg-yellow-50"
-          >
-            ON SALE
-          </Link>
         </div>
       </div>
     </>
   );
 }
-

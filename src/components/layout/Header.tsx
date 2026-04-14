@@ -8,6 +8,8 @@ import { WishlistIcon } from '@/components/WishlistIcon';
 import { CartIcon } from '@/components/CartIcon';
 import { CartSidebar } from '@/components/CartSidebar';
 import { categories } from '@/lib/categories';
+import { publicApi } from '@/api';
+import type { Category as ApiCategory } from '@/types/product.types';
 
 // Sub-components
 import { HamburgerButton } from './header/HamburgerButton';
@@ -35,9 +37,17 @@ export function Header() {
   const [hoveredCategory, setHoveredCategory] = useState<string>(categories[0]?.slug || '');
   const navTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  const [apiCategories, setApiCategories] = useState<ApiCategory[]>([]);
+
   const [scrolled, setScrolled] = useState(false);
   const [desktopNavOpen, setDesktopNavOpen] = useState<boolean>(false);
   const [mobileAccordion, setMobileAccordion] = useState<string | null>(null);
+
+  // Fetch API categories whenever locale changes
+  useEffect(() => {
+    const lang = locale as 'en' | 'fr' | 'de';
+    publicApi.getCategories(lang).then(setApiCategories).catch(() => {});
+  }, [locale]);
 
   // Scroll detection with a transition lock:
   // After any state flip, ignore scroll events for 600 ms so that the
@@ -173,6 +183,7 @@ export function Header() {
               searchCategory={searchCategory}
               setSearchCategory={setSearchCategory}
               handleSearch={handleSearch}
+              apiCategories={apiCategories}
             />
 
             {/* User Actions */}
@@ -193,6 +204,7 @@ export function Header() {
           setHoveredCategory={setHoveredCategory}
           handleNavEnter={handleNavEnter}
           handleNavLeave={handleNavLeave}
+          apiCategories={apiCategories}
         />
       </header>
 
@@ -205,6 +217,7 @@ export function Header() {
         handleSearch={handleSearch}
         mobileAccordion={mobileAccordion}
         toggleMobileAccordion={toggleMobileAccordion}
+        apiCategories={apiCategories}
       />
 
       <CartSidebar open={cartOpen} onClose={() => setCartOpen(false)} />

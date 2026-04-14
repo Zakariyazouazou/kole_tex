@@ -1,9 +1,10 @@
 export const navMenuItems = [
-  { id: 'shop-by-categories', label: 'Shop By Categories', hasChevron: true, type: 'mega' as const },
-  { id: 'new-arrivals', label: 'New Arrivals', hasChevron: true, type: 'dropdown' as const },
-  { id: 'collections', label: 'Collections', hasChevron: true, type: 'dropdown' as const },
-  { id: 'accessories', label: 'Accessories', hasChevron: false, type: 'link' as const, href: '/products?category=Electronics' },
-  { id: 'sale', label: 'ON SALE', hasChevron: false, type: 'link' as const, href: '/products', highlight: true },
+  // { id: 'shop-by-categories', label: 'Shop By Categories', hasChevron: true, type: 'mega' as const },
+  // { id: 'categories', label: 'Categories', hasChevron: true, type: 'dropdown' as const },
+  // { id: 'new-arrivals', label: 'New Arrivals', hasChevron: true, type: 'dropdown' as const },
+  // { id: 'collections', label: 'Collections', hasChevron: true, type: 'dropdown' as const },
+  // { id: 'accessories', label: 'Accessories', hasChevron: false, type: 'link' as const, href: '/products?category=Electronics' },
+  // { id: 'sale', label: 'ON SALE', hasChevron: false, type: 'link' as const, href: '/products', highlight: true },
 ];
 
 export const newArrivalsDropdown = {
