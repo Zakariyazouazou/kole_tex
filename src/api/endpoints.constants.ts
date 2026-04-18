@@ -47,6 +47,7 @@ export const API_ENDPOINTS = {
   QUOTES: {
     MY: '/quotes/my',
     MY_BY_ID: (id: string) => `/quotes/my/${id}`,
+    MY_STATS: '/quotes/my/stats',
     CREATE: '/quotes',
   },
 

@@ -1,3 +1,12 @@
+// ─── User quote stats ─────────────────────────────────────────────────────────
+
+export interface UserQuoteStats {
+  totalQuotes: number;
+  pendingCount: number;
+  deliveredCount: number;
+  totalSpent: number;
+}
+
 // ─── Quote status ─────────────────────────────────────────────────────────────
 
 export type QuoteStatus =

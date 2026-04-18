@@ -11,6 +11,7 @@ import type {
   QuoteListResponse,
   QuoteRequest,
   QuoteStatus,
+  UserQuoteStats,
 } from '@/types/quote.types';
 
 export function logout(): Promise<void> {
@@ -112,5 +113,11 @@ export function getMyQuoteById(id: string): Promise<QuoteRequest> {
 export function createQuote(data: CreateQuotePayload): Promise<QuoteRequest> {
   return apiClient
     .post<QuoteRequest>(API_ENDPOINTS.QUOTES.CREATE, data)
+    .then((r) => r.data);
+}
+
+export function getMyQuoteStats(): Promise<UserQuoteStats> {
+  return apiClient
+    .get<UserQuoteStats>(API_ENDPOINTS.QUOTES.MY_STATS)
     .then((r) => r.data);
 }

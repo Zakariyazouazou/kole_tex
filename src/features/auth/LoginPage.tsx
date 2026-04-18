@@ -3,6 +3,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { isAxiosError } from 'axios';
 import { useAuth } from '@/context/AuthContext';
 import { Link, useRouter } from '@/i18n/navigation';
 import { extractApiError } from '@/lib/extractApiError';
@@ -46,7 +47,22 @@ export function LoginPage() {
       const destination = safeRedirect || (user.role === 'ADMIN' ? '/admin/dashboard' : '/dashboard');
       router.push(destination as never);
     } catch (err) {
-      setGlobalError(extractApiError(err));
+      if (isAxiosError(err)) {
+        const status = err.response?.status;
+        const apiMsg  = err.response?.data?.message;
+
+        if (status === 400 && apiMsg === 'Please login with Google') {
+          setGlobalError('This account uses Google login. Please sign in with Google.');
+        } else if (status === 401) {
+          setGlobalError('Email or password is incorrect.');
+        } else if (status === 400 || status === 422) {
+          setGlobalError('Please enter a valid email and password.');
+        } else {
+          setGlobalError(extractApiError(err));
+        }
+      } else {
+        setGlobalError(extractApiError(err));
+      }
     }
   };
 

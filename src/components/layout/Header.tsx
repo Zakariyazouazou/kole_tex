@@ -20,7 +20,6 @@ export function Header() {
 
   const [catalogueSheetOpen, setCatalogueSheetOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchCategory, setSearchCategory] = useState('All Categories');
   const [apiCategories, setApiCategories] = useState<ApiCategory[]>([]);
   const [scrolled, setScrolled] = useState(false);
 
@@ -116,10 +115,7 @@ export function Header() {
             <HeaderSearchBar
               searchQuery={searchQuery}
               setSearchQuery={setSearchQuery}
-              searchCategory={searchCategory}
-              setSearchCategory={setSearchCategory}
               handleSearch={handleSearch}
-              apiCategories={apiCategories}
             />
 
             {/* User Actions */}

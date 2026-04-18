@@ -3,6 +3,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { isAxiosError } from 'axios';
 import { useAuth } from '@/context/AuthContext';
 import { Link, useRouter } from '@/i18n/navigation';
 import { extractApiError } from '@/lib/extractApiError';
@@ -59,7 +60,21 @@ export function RegisterPage() {
       // Show post-registration options instead of auto-redirecting
       setRegisteredEmail(values.email);
     } catch (err) {
-      setGlobalError(extractApiError(err));
+      if (isAxiosError(err)) {
+        const status = err.response?.status;
+        const apiMsg  = err.response?.data?.message;
+
+        if (status === 409) {
+          setGlobalError('An account with this email already exists. Please log in.');
+        } else if (status === 400) {
+          const text = Array.isArray(apiMsg) ? apiMsg[0] : apiMsg;
+          setGlobalError(text || 'Please check all fields and try again.');
+        } else {
+          setGlobalError(extractApiError(err));
+        }
+      } else {
+        setGlobalError(extractApiError(err));
+      }
     }
   };
 

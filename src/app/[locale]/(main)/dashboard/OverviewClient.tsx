@@ -1,13 +1,16 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '@/context/AuthContext';
-import { useOrders } from '@/context/OrderContext';
-import { 
-  ShoppingCart, 
-  Clock, 
-  CheckCircle, 
-  DollarSign,
+import { useRouter } from '@/i18n/navigation';
+import { protectedApi } from '@/api';
+import type { UserQuoteStats } from '@/types/quote.types';
+import {
+  FileText,
+  Clock,
+  CheckCircle,
+  Coins,
   AlertTriangle,
 } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
@@ -15,36 +18,70 @@ import { Link } from '@/i18n/navigation';
 export function OverviewClient() {
   const t = useTranslations('dashboard');
   const { user } = useAuth();
-  const { orders } = useOrders();
+  const router = useRouter();
 
-  const totalSpent = orders.reduce((sum, o) => sum + o.total, 0);
-  const pending = orders.filter((o) => o.status === 'pending' || o.status === 'processing').length;
-  const delivered = orders.filter((o) => o.status === 'delivered').length;
+  const [stats, setStats] = useState<UserQuoteStats | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    setLoading(true);
+    setError(false);
+
+    protectedApi
+      .getMyQuoteStats()
+      .then((data) => {
+        if (!cancelled) {
+          setStats(data);
+        }
+      })
+      .catch((err) => {
+        if (cancelled) return;
+        const status = err?.response?.status;
+        if (status === 401 || status === 403) {
+          router.push('/login' as never);
+          return;
+        }
+        setError(true);
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [router]);
+
   const fullName = user ? `${user.firstName} ${user.lastName}` : '';
 
-  const stats = [
+  const formatCurrency = (value: number) =>
+    `€${value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
+  const cards = [
     {
-      label: t('totalOrders'),
-      value: orders.length,
-      icon: ShoppingCart,
+      label: 'TOTAL QUOTES',
+      value: error ? '—' : stats?.totalQuotes ?? 0,
+      icon: FileText,
       color: 'text-brand-blue bg-brand-blue-light',
     },
     {
-      label: t('pending'),
-      value: pending,
+      label: 'PENDING',
+      value: error ? '—' : stats?.pendingCount ?? 0,
       icon: Clock,
       color: 'text-yellow-600 bg-yellow-50',
     },
     {
-      label: t('delivered'),
-      value: delivered,
+      label: 'DELIVERED',
+      value: error ? '—' : stats?.deliveredCount ?? 0,
       icon: CheckCircle,
       color: 'text-green-600 bg-green-50',
     },
     {
-      label: t('totalSpent'),
-      value: `$${totalSpent.toFixed(2)}`,
-      icon: DollarSign,
+      label: 'TOTAL SPENT',
+      value: error ? '—' : formatCurrency(stats?.totalSpent ?? 0),
+      icon: Coins,
       color: 'text-purple-600 bg-purple-50',
     },
   ];
@@ -75,20 +112,26 @@ export function OverviewClient() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {stats.map((stat) => (
+        {cards.map((card) => (
           <div
-            key={stat.label}
+            key={card.label}
             className="rounded-2xl border border-gray-100 bg-white p-6 transition-all hover:shadow-md hover:shadow-black/5"
           >
             <div className="flex items-center gap-4">
               <div
-                className={`flex h-12 w-12 items-center justify-center rounded-xl ${stat.color}`}
+                className={`flex h-12 w-12 items-center justify-center rounded-xl ${card.color}`}
               >
-                <stat.icon className="h-6 w-6" />
+                <card.icon className="h-6 w-6" />
               </div>
               <div>
-                <p className="text-xs font-medium text-gray-400 uppercase tracking-wider">{stat.label}</p>
-                <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
+                <p className="text-xs font-medium text-gray-400 uppercase tracking-wider">
+                  {card.label}
+                </p>
+                {loading ? (
+                  <div className="mt-1 h-8 w-16 animate-pulse rounded-md bg-gray-200" />
+                ) : (
+                  <p className="text-2xl font-bold text-gray-900">{card.value}</p>
+                )}
               </div>
             </div>
           </div>
