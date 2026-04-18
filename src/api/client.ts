@@ -65,8 +65,16 @@ apiClient.interceptors.response.use(
       return Promise.reject(error);
     }
 
-    // Skip refresh loop if the failing request IS the refresh endpoint
-    if (originalRequest.url?.includes("/auth/refresh")) {
+    // Skip refresh for auth endpoints where 401 means "bad credentials",
+    // not "session expired". Triggering a refresh + redirect here would
+    // wipe the form-level error message before the user can read it.
+    const url = originalRequest.url ?? "";
+    if (
+      url.includes("/auth/refresh") ||
+      url.includes("/auth/login") ||
+      url.includes("/auth/register") ||
+      url.includes("/auth/google")
+    ) {
       return Promise.reject(error);
     }
 
