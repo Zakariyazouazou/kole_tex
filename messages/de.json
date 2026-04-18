@@ -178,7 +178,8 @@
     "city": "Stadt",
     "postalCode": "Postleitzahl",
     "country": "Land",
-    "phone": "Telefonnummer"
+    "phone": "Telefonnummer",
+    "comingSoon": "Der Checkout ist bald verfügbar. Vielen Dank für Ihre Geduld!"
   },
   "dashboard": {
     "welcome": "Willkommen zurück",

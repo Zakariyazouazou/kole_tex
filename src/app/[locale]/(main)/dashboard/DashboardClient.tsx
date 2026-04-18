@@ -39,19 +39,15 @@ export function DashboardClient() {
 
   // Form
   const [formData, setFormData] = useState({
-    name: user?.name || '',
+    firstName: user?.firstName || '',
+    lastName: user?.lastName || '',
     email: user?.email || '',
-    phone: user?.phone || '',
-    company: user?.company || '',
-    address: user?.address || '',
-    city: user?.city || '',
-    postalCode: user?.postalCode || '',
-    country: user?.country || '',
+    phoneNumber: user?.phoneNumber || '',
   });
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
-    updateUser(formData);
+    if (user) updateUser({ ...user, ...formData });
     setSaved(true);
     setTimeout(() => setSaved(false), 3000);
   };
@@ -65,7 +61,7 @@ export function DashboardClient() {
       <div className="bg-gray-50 min-h-screen py-8">
         <div className="mx-auto max-w-7xl px-4">
           <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-1">
-            {t('welcome')}, {user?.name}! 👋
+            {t('welcome')}, {user?.firstName} {user?.lastName}! 👋
           </h1>
           <p className="text-sm text-gray-500 mb-8">{user?.email}</p>
 
@@ -195,10 +191,17 @@ export function DashboardClient() {
                 </h2>
                 <form onSubmit={handleSave} className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label>{t('name')}</Label>
+                    <Label>{t('firstName')}</Label>
                     <Input
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      value={formData.firstName}
+                      onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>{t('lastName')}</Label>
+                    <Input
+                      value={formData.lastName}
+                      onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                     />
                   </div>
                   <div className="space-y-2">
@@ -212,43 +215,8 @@ export function DashboardClient() {
                   <div className="space-y-2">
                     <Label>{t('phone')}</Label>
                     <Input
-                      value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label>{t('company')}</Label>
-                    <Input
-                      value={formData.company}
-                      onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                    />
-                  </div>
-                  <div className="space-y-2 md:col-span-2">
-                    <Label>{t('address')}</Label>
-                    <Input
-                      value={formData.address}
-                      onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label>{t('city')}</Label>
-                    <Input
-                      value={formData.city}
-                      onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label>{t('postalCode')}</Label>
-                    <Input
-                      value={formData.postalCode}
-                      onChange={(e) => setFormData({ ...formData, postalCode: e.target.value })}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label>{t('country')}</Label>
-                    <Input
-                      value={formData.country}
-                      onChange={(e) => setFormData({ ...formData, country: e.target.value })}
+                      value={formData.phoneNumber}
+                      onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
                     />
                   </div>
                   <div className="md:col-span-2 flex items-center gap-4 mt-2">

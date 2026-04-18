@@ -178,7 +178,8 @@
     "city": "Ville",
     "postalCode": "Code postal",
     "country": "Pays",
-    "phone": "Numéro de téléphone"
+    "phone": "Numéro de téléphone",
+    "comingSoon": "Le paiement sera bientôt disponible. Merci de votre patience !"
   },
   "dashboard": {
     "welcome": "Bon retour",

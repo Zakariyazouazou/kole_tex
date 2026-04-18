@@ -18,9 +18,9 @@ export function getAccessToken(): string | null {
 
 // ─── Axios instance ───────────────────────────────────────────────────────────
 export const apiClient = axios.create({
-  baseURL:
-  'https://textile-api.kole.be/'  ,
-    // "http://localhost:4877",
+  baseURL: '/api/',
+    // "https://textile-api.kole.be/" (use in production without Next.js proxy)
+   /// "http://localhost:4877",
   withCredentials: true,
   headers: { "Content-Type": "application/json" },
   paramsSerializer: (params) =>

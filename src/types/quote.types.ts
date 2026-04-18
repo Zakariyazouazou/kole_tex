@@ -53,6 +53,9 @@ export interface QuoteRequest {
   totalPrice: number;
   note?: string;
   adminNote?: string;
+  isPaid: boolean;
+  paidAt?: string | null;
+  confirmedAt?: string | null;
   createdAt: string;
   updatedAt: string;
   address: QuoteAddress;

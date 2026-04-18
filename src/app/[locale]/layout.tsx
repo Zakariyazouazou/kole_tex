@@ -1,5 +1,5 @@
 import { NextIntlClientProvider, hasLocale } from 'next-intl';
-import { notFound } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import "../globals.css";
 
 import { routing } from '@/i18n/routing';
@@ -17,7 +17,7 @@ export default async function LocaleLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  if (!hasLocale(routing.locales, locale)) notFound();
+  if (!hasLocale(routing.locales, locale)) redirect('/');
   const messages = (await import(`../../../messages/${locale}.json`)).default;
 
   return (

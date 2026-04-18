@@ -174,3 +174,102 @@ export interface PaginatedResponse<T> {
   limit: number;
 }
 
+// ─── Analytics — Action Queue ─────────────────────────────────────────────────
+
+export interface ActionQueueUser {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+}
+
+export interface ConfirmedUnpaidItem {
+  id: string;
+  totalPrice: string;
+  createdAt: string;
+  confirmedAt: string;
+  user: ActionQueueUser;
+}
+
+export interface PaidNotAdvancedItem {
+  id: string;
+  totalPrice: string;
+  paidAt: string;
+  user: ActionQueueUser;
+}
+
+export interface StuckProcessingItem {
+  id: string;
+  totalPrice: string;
+  updatedAt: string;
+  user: ActionQueueUser;
+}
+
+export interface ActionQueueResponse {
+  pendingQuotes: {
+    count: number;
+    message: string;
+  };
+  confirmedUnpaid: {
+    count: number;
+    message: string;
+    items: ConfirmedUnpaidItem[];
+  };
+  paidNotAdvanced: {
+    count: number;
+    message: string | null;
+    items: PaidNotAdvancedItem[];
+  };
+  stuckProcessing: {
+    count: number;
+    message: string | null;
+    items: StuckProcessingItem[];
+  };
+}
+
+// ─── Analytics — Revenue ──────────────────────────────────────────────────────
+
+export interface WeeklyRevenue {
+  week: string;
+  total: number;
+}
+
+export interface RevenueResponse {
+  thisMonth: { total: number; count: number };
+  lastMonth: { total: number; count: number };
+  trendPercent: number | null;
+  averageQuoteValue: number;
+  weeklyRevenue: WeeklyRevenue[];
+}
+
+// ─── Analytics — Quote Funnel ─────────────────────────────────────────────────
+
+export interface FunnelEntry {
+  status: string;
+  count: number;
+}
+
+export interface QuoteFunnelResponse {
+  funnel: FunnelEntry[];
+  highlights: {
+    confirmedUnpaid: number;
+    totalPaid: number;
+  };
+}
+
+// ─── Analytics — Top Customers ────────────────────────────────────────────────
+
+export interface TopCustomer {
+  userId: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  totalPaid: number;
+  quoteCount: number;
+  lastQuoteAt: string;
+}
+
+export interface TopCustomersResponse {
+  customers: TopCustomer[];
+}
+

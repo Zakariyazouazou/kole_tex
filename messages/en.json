@@ -178,7 +178,8 @@
     "city": "City",
     "postalCode": "Postal Code",
     "country": "Country",
-    "phone": "Phone Number"
+    "phone": "Phone Number",
+    "comingSoon": "Checkout is coming soon. Thank you for your patience!"
   },
   "dashboard": {
     "welcome": "Welcome back",

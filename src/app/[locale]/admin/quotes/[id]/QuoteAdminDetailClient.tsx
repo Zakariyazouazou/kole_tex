@@ -9,6 +9,7 @@ import {
   AlertCircle,
   ArrowLeft,
   CheckCircle2,
+  CreditCard,
   Info,
   Loader2,
 } from 'lucide-react';
@@ -58,6 +59,58 @@ function Toast({ message, type }: { message: string; type: 'success' | 'error' }
       )}
       {message}
     </div>
+  );
+}
+
+// ─── Mark as Paid button ──────────────────────────────────────────────────────
+
+function MarkAsPaidButton({
+  quoteId,
+  onPaid,
+}: {
+  quoteId: string;
+  onPaid: () => void;
+}) {
+  const [loading, setLoading] = useState(false);
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(
+    null
+  );
+
+  const showToast = (message: string, type: 'success' | 'error') => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 3000);
+  };
+
+  const handleClick = async () => {
+    setLoading(true);
+    try {
+      await adminApi.markQuoteAsPaid(quoteId);
+      showToast('Quote marked as paid', 'success');
+      onPaid();
+    } catch (err) {
+      showToast(extractApiError(err), 'error');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <>
+      <button
+        type="button"
+        onClick={handleClick}
+        disabled={loading}
+        className="inline-flex items-center gap-2 rounded-xl bg-green-600 px-4 py-2 text-sm font-bold text-white hover:bg-green-700 disabled:opacity-50 transition-colors"
+      >
+        {loading ? (
+          <Loader2 className="h-4 w-4 animate-spin" />
+        ) : (
+          <CreditCard className="h-4 w-4" />
+        )}
+        Mark as Paid
+      </button>
+      {toast && <Toast message={toast.message} type={toast.type} />}
+    </>
   );
 }
 
@@ -260,9 +313,21 @@ export function QuoteAdminDetailClient({ id }: QuoteAdminDetailClientProps) {
             <p className="text-xs text-gray-400 font-medium uppercase tracking-wide">Quote ID</p>
             <p className="font-mono text-sm text-gray-700 mt-0.5 break-all">{quote.id}</p>
           </div>
-          <Badge className={`${STATUS_COLORS[quote.status]} border-0 px-4 py-1.5 rounded-full text-xs font-bold self-start`}>
-            {quote.status}
-          </Badge>
+          <div className="flex flex-wrap items-center gap-3 self-start">
+            <Badge className={`${STATUS_COLORS[quote.status]} border-0 px-4 py-1.5 rounded-full text-xs font-bold`}>
+              {quote.status}
+            </Badge>
+            {quote.isPaid ? (
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-green-100 text-green-700 px-4 py-1.5 text-xs font-bold">
+                <CheckCircle2 className="h-3.5 w-3.5" /> Paid
+              </span>
+            ) : (
+              <MarkAsPaidButton
+                quoteId={quote.id}
+                onPaid={() => setQuote((prev) => prev ? { ...prev, isPaid: true } : prev)}
+              />
+            )}
+          </div>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-2 border-t border-gray-100">

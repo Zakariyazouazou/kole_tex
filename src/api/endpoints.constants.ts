@@ -72,6 +72,14 @@ export const API_ENDPOINTS = {
       BY_ID: (id: string) => `/quotes/admin/${id}`,
       STATUS: (id: string) => `/quotes/admin/${id}/status`,
       NOTE: (id: string) => `/quotes/admin/${id}/note`,
+      MARK_PAID: (id: string) => `/quotes/admin/${id}/mark-paid`,
+    },
+
+    ANALYTICS: {
+      ACTION_QUEUE: '/analytics/action-queue',
+      REVENUE: '/analytics/revenue',
+      QUOTE_FUNNEL: '/analytics/quote-funnel',
+      TOP_CUSTOMERS: '/analytics/top-customers',
     },
 
     ADDRESSES: {

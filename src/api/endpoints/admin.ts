@@ -1,6 +1,7 @@
 import { apiClient } from '../client';
 import { API_ENDPOINTS } from '../endpoints.constants';
 import type {
+  ActionQueueResponse,
   AdminAddress,
   AdminCart,
   AdminCartDetail,
@@ -13,9 +14,12 @@ import type {
   HardUpsertResponse,
   OrderStatus,
   PaginatedResponse,
+  QuoteFunnelResponse,
+  RevenueResponse,
   SyncLogDetail,
   SyncLogsResponse,
   SyncOverallStatus,
+  TopCustomersResponse,
   ToptexConnectionStatus,
 } from '@/lib/admin-api';
 import type { QuoteListResponse, QuoteRequest, QuoteStatus } from '@/types/quote.types';
@@ -254,4 +258,33 @@ export const updateAdminQuoteStatus = (id: string, status: QuoteStatus) =>
 export const updateAdminQuoteNote = (id: string, adminNote: string) =>
   apiClient
     .patch<QuoteRequest>(API_ENDPOINTS.ADMIN.QUOTES.NOTE(id), { adminNote })
+    .then((r) => r.data);
+
+export const markQuoteAsPaid = (id: string) =>
+  apiClient
+    .patch<QuoteRequest>(API_ENDPOINTS.ADMIN.QUOTES.MARK_PAID(id))
+    .then((r) => r.data);
+
+// ─── Analytics ─────────────────────────────────────────────────────────────
+
+export const getActionQueue = () =>
+  apiClient
+    .get<ActionQueueResponse>(API_ENDPOINTS.ADMIN.ANALYTICS.ACTION_QUEUE)
+    .then((r) => r.data);
+
+export const getRevenue = () =>
+  apiClient
+    .get<RevenueResponse>(API_ENDPOINTS.ADMIN.ANALYTICS.REVENUE)
+    .then((r) => r.data);
+
+export const getQuoteFunnel = () =>
+  apiClient
+    .get<QuoteFunnelResponse>(API_ENDPOINTS.ADMIN.ANALYTICS.QUOTE_FUNNEL)
+    .then((r) => r.data);
+
+export const getTopCustomers = (limit = 10) =>
+  apiClient
+    .get<TopCustomersResponse>(
+      `${API_ENDPOINTS.ADMIN.ANALYTICS.TOP_CUSTOMERS}?limit=${limit}`
+    )
     .then((r) => r.data);
