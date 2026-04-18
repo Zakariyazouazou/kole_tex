@@ -6,7 +6,7 @@ import { z } from 'zod';
 import { useAuth } from '@/context/AuthContext';
 import { Link, useRouter } from '@/i18n/navigation';
 import { extractApiError } from '@/lib/extractApiError';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -23,8 +23,15 @@ type FormValues = z.infer<typeof schema>;
 export function LoginPage() {
   const { login } = useAuth();
   const router = useRouter();
+  // Read redirect param client-side only — avoids Suspense boundary issues
+  const [safeRedirect, setSafeRedirect] = useState<string | null>(null);
   const [globalError, setGlobalError] = useState('');
   const [googleError, setGoogleError] = useState('');
+
+  useEffect(() => {
+    const raw = new URLSearchParams(window.location.search).get('redirect') ?? '';
+    setSafeRedirect(raw.startsWith('/') && !raw.startsWith('//') ? raw : null);
+  }, []);
 
   const {
     register,
@@ -36,14 +43,16 @@ export function LoginPage() {
     setGlobalError('');
     try {
       const user = await login(values);
-      router.push((user.role === 'ADMIN' ? '/admin/dashboard' : '/dashboard') as never);
+      const destination = safeRedirect || (user.role === 'ADMIN' ? '/admin/dashboard' : '/dashboard');
+      router.push(destination as never);
     } catch (err) {
       setGlobalError(extractApiError(err));
     }
   };
 
   const handleGoogleSuccess = (role: 'CUSTOMER' | 'ADMIN') => {
-    router.push((role === 'ADMIN' ? '/admin/dashboard' : '/dashboard') as never);
+    const destination = safeRedirect || (role === 'ADMIN' ? '/admin/dashboard' : '/dashboard');
+    router.push(destination as never);
   };
 
   return (
@@ -136,7 +145,7 @@ export function LoginPage() {
           <p className="mt-6 text-center text-sm text-gray-500">
             Don&apos;t have an account?{' '}
             <Link
-              href="/register"
+              href={safeRedirect ? `/register?redirect=${encodeURIComponent(safeRedirect)}` : '/register'}
               className="text-brand-blue font-medium hover:underline"
             >
               Sign up

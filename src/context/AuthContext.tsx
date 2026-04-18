@@ -18,7 +18,9 @@ import type {
   VerifyEmailPayload,
   ChangePasswordPayload,
   MessageResponse,
+  PreferredLanguage,
 } from '@/types/auth.types';
+import { detectBrowserLanguage } from '@/lib/language-utils';
 
 // Re-export User for backward-compat with AppContext
 export type { User };
@@ -36,6 +38,7 @@ interface AuthContextType extends AuthState {
   logout: () => Promise<void>;
   googleLogin: (idToken: string) => Promise<User>;
   updateUser: (user: User) => void;
+  setUserLanguage: (language: PreferredLanguage) => Promise<User>;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -70,6 +73,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setAccessToken(res.accessToken);
     saveToStorage(USER_STORAGE_KEY, res.user);
     setState({ user: res.user, isAuthenticated: true, isLoading: false });
+
+    // Set language preference after successful login
+    try {
+      const language = detectBrowserLanguage();
+      const updatedUser = await protectedApi.setUserLanguage(language);
+      saveToStorage(USER_STORAGE_KEY, updatedUser);
+      setState((prev) => ({ ...prev, user: updatedUser }));
+    } catch (err) {
+      // Silently fail language setting, don't interrupt login
+      console.warn('Failed to set user language:', err);
+    }
+
     return res.user;
   }, []);
 
@@ -118,6 +133,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setAccessToken(res.accessToken);
     saveToStorage(USER_STORAGE_KEY, res.user);
     setState({ user: res.user, isAuthenticated: true, isLoading: false });
+
+    // Set language preference after successful Google login
+    try {
+      const language = detectBrowserLanguage();
+      const updatedUser = await protectedApi.setUserLanguage(language);
+      saveToStorage(USER_STORAGE_KEY, updatedUser);
+      setState((prev) => ({ ...prev, user: updatedUser }));
+    } catch (err) {
+      // Silently fail language setting, don't interrupt login
+      console.warn('Failed to set user language:', err);
+    }
+
     return res.user;
   }, []);
 
@@ -125,6 +152,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     saveToStorage(USER_STORAGE_KEY, updatedUser);
     setState((prev) => ({ ...prev, user: updatedUser }));
   }, []);
+
+  const setUserLanguage = useCallback(
+    async (language: PreferredLanguage): Promise<User> => {
+      const updatedUser = await protectedApi.setUserLanguage(language);
+      saveToStorage(USER_STORAGE_KEY, updatedUser);
+      setState((prev) => ({ ...prev, user: updatedUser }));
+      return updatedUser;
+    },
+    []
+  );
 
   const isAdmin = state.user?.role === 'ADMIN';
 
@@ -142,6 +179,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         logout,
         googleLogin,
         updateUser,
+        setUserLanguage,
       }}
     >
       {children}

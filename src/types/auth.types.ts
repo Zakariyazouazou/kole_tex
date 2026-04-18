@@ -1,9 +1,14 @@
+export type PreferredLanguage = 'nl' | 'fr' | 'en' | 'de';
+
+export const PREFERRED_LANGUAGES: PreferredLanguage[] = ['nl', 'fr', 'en', 'de'];
+
 export interface User {
   id: string;
   email: string;
   firstName: string;
   lastName: string;
   phoneNumber?: string;
+  preferredLanguage?: PreferredLanguage;
   role: 'CUSTOMER' | 'ADMIN';
   isEmailVerified: boolean;
 }

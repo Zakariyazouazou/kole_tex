@@ -7,6 +7,7 @@ import { AccountDropdown } from '@/components/AccountDropdown';
 import { WishlistIcon } from '@/components/WishlistIcon';
 import { CartIcon } from '@/components/CartIcon';
 import { CartSidebar } from '@/components/CartSidebar';
+import { useCart } from '@/context/CartContext';
 import { categories } from '@/lib/categories';
 import { publicApi } from '@/api';
 import type { Category as ApiCategory } from '@/types/product.types';
@@ -28,8 +29,7 @@ export function Header() {
   const locale = useLocale();
   const pathname = usePathname();
 
-  // Shared state logic
-  const [cartOpen, setCartOpen] = useState(false);
+  const { isCartOpen, setIsCartOpen } = useCart();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchCategory, setSearchCategory] = useState('All Categories');
@@ -190,7 +190,8 @@ export function Header() {
             <div className="flex items-center gap-5">
               <AccountDropdown />
               <WishlistIcon count={0} />
-              <CartIcon onClick={() => setCartOpen(true)} />
+              {/* CartIcon hidden while quote system is active */}
+              {/* <CartIcon onClick={() => setIsCartOpen(true)} /> */}
             </div>
           </div>
         </div>
@@ -220,7 +221,8 @@ export function Header() {
         apiCategories={apiCategories}
       />
 
-      <CartSidebar open={cartOpen} onClose={() => setCartOpen(false)} />
+      {/* CartSidebar hidden while quote system is active */}
+      {/* <CartSidebar open={isCartOpen} onClose={() => setIsCartOpen(false)} /> */}
     </>
   );
 }

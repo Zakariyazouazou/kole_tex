@@ -13,8 +13,64 @@ export type OrderStatus =
   | 'DELIVERED'
   | 'CANCELLED';
 
-export type SyncType = 'upsert' | 'deleted';
+export type SyncType = 'upsert' | 'deleted' | 'hard-upsert';
 export type SyncStatus = 'running' | 'success' | 'failed';
+
+export interface ToptexConnectionData {
+  username: string;
+  token: string;
+  expiry_time: string;
+  expiry_time_timezone: string;
+}
+
+export interface ToptexConnectionStatus {
+  status: 'success' | 'error';
+  message: string;
+  data?: ToptexConnectionData;
+}
+
+export interface SyncRunStatus {
+  status: SyncStatus | null;
+  startedAt: string | null;
+  finishedAt: string | null;
+  processedItems: number | null;
+  failedItems: number | null;
+}
+
+export interface SyncOverallStatus {
+  upsert: SyncRunStatus;
+  deleted: SyncRunStatus;
+  hardUpsert: SyncRunStatus;
+  lastUpsertSyncDate: string | null;
+  lastDeletedSyncDate: string | null;
+  lastHardUpsertDate: string | null;
+}
+
+export interface SyncLogDetail {
+  id: string;
+  type: SyncType;
+  status: SyncStatus;
+  startedAt: string;
+  finishedAt: string | null;
+  processedItems: number;
+  failedItems: number;
+  totalPages: number;
+  errorMessage: string | null;
+  createdAt: string;
+}
+
+export interface SyncLogsResponse {
+  data: SyncLogDetail[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}
+
+export interface HardUpsertResponse {
+  message: string;
+  syncLogId: string;
+}
 
 export interface AdminUser {
   id: string;
@@ -98,22 +154,10 @@ export interface AdminCategory {
   children?: AdminCategory[];
 }
 
-export interface SyncLog {
-  id: string;
-  type: SyncType;
-  status: SyncStatus;
-  totalPages?: number;
-  processedItems?: number;
-  failedItems?: number;
-  errorMessage?: string;
-  startedAt: string;
-  completedAt?: string;
-}
-
-export interface SyncStatusResponse {
-  apiConnectivity: 'ok' | 'error';
-  lastSync?: { status: SyncStatus; completedAt?: string };
-}
+/** @deprecated Use SyncLogDetail instead */
+export type SyncLog = SyncLogDetail;
+/** @deprecated Use ToptexConnectionStatus or SyncOverallStatus instead */
+export type SyncStatusResponse = ToptexConnectionStatus;
 
 export interface DashboardStats {
   totalUsers: number;

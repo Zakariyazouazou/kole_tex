@@ -11,6 +11,7 @@ import {
   Package,
   Tag,
   RefreshCw,
+  FileText,
   ChevronRight,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -18,7 +19,8 @@ import { cn } from '@/lib/utils';
 const navItems = [
   { label: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard, exact: true },
   { label: 'Users', href: '/admin/users', icon: Users },
-  { label: 'Orders', href: '/admin/orders', icon: ShoppingBag },
+  { label: 'Quotes', href: '/admin/quotes', icon: FileText },
+  // { label: 'Orders', href: '/admin/orders', icon: ShoppingBag },
   { label: 'Addresses', href: '/admin/addresses', icon: MapPin },
   { label: 'Carts', href: '/admin/carts', icon: ShoppingCart },
   { label: 'Reviews', href: '/admin/reviews', icon: Star },

@@ -1,0 +1,143 @@
+======================================================
+  FRONTEND API CONTRACTS — QUOTES & USERS
+  Base URL: https://textile-api.kole.be/
+  Auth: Bearer <accessToken> in Authorization header
+======================================================
+
+
+──────────────────────────────────────────────────────
+  QUOTES — USER (authenticated customer)
+──────────────────────────────────────────────────────
+
+1. List my quotes
+   GET /quotes/my
+   Query params: page (number), limit (number), status (string, optional)
+   Example: GET /quotes/my?page=1&limit=10&status=PENDING
+
+   Expected response:
+   {
+     "data": [ ...QuoteRequest[] ],
+     "meta": {
+       "total": 50,
+       "page": 1,
+       "limit": 10,
+       "totalPages": 5
+     }
+   }
+
+2. Get single quote
+   GET /quotes/my/{id}
+
+   Expected response: QuoteRequest object
+
+3. Create a quote
+   POST /quotes
+   Body:
+   {
+     "addressId": "uuid-of-address",
+     "items": [
+       { "skuId": "uuid", "quantity": 5 }
+     ],
+     "note": "optional note string"
+   }
+
+   Expected response: QuoteRequest object
+
+
+──────────────────────────────────────────────────────
+  QUOTES — ADMIN
+──────────────────────────────────────────────────────
+
+1. List all quotes
+   GET /quotes/admin/all
+   Query params: page (number), limit (number), status (string, optional)
+   Example: GET /quotes/admin/all?page=1&limit=20&status=PENDING
+
+   Expected response:
+   {
+     "data": [ ...QuoteRequest[] ],
+     "meta": {
+       "total": 50,
+       "page": 1,
+       "limit": 20,
+       "totalPages": 3
+     }
+   }
+
+2. Get single quote
+   GET /quotes/admin/{id}
+
+   Expected response: QuoteRequest object
+
+3. Update quote status
+   PATCH /quotes/admin/{id}/status
+   Body:
+   {
+     "status": "CONFIRMED"
+   }
+
+   Expected response: updated QuoteRequest object
+
+4. Update admin note
+   PATCH /quotes/admin/{id}/note
+   Body:
+   {
+     "adminNote": "some internal note"
+   }
+
+   Expected response: updated QuoteRequest object
+
+
+──────────────────────────────────────────────────────
+  USERS — ADMIN
+──────────────────────────────────────────────────────
+
+1. List all users
+   GET /users
+   Query params: page (number), limit (number)
+   Example: GET /users?page=1&limit=20
+
+2. Get single user
+   GET /users/{id}
+
+3. Update user
+   PATCH /users/{id}
+   Body (partial, any combination):
+   {
+     "firstName": "John",
+     "lastName": "Doe",
+     "phoneNumber": "+32123456789",
+     "role": "CUSTOMER"
+   }
+
+4. Delete user
+   DELETE /users/{id}
+
+
+──────────────────────────────────────────────────────
+  QUOTE STATUS ENUM VALUES
+──────────────────────────────────────────────────────
+
+  PENDING
+  CONFIRMED
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+
+
+──────────────────────────────────────────────────────
+  NOTES FOR BACKEND
+──────────────────────────────────────────────────────
+
+- List endpoints use "meta" wrapper (not "pagination")
+  The frontend expects: { data: [], meta: { total, page, limit, totalPages } }
+
+- Fetching a single quote and updating a quote (status/note)
+  are currently failing — please verify the routes exist and
+  return the correct shape.
+
+- All requests include: Authorization: Bearer <token>
+  and Content-Type: application/json
+
+======================================================

@@ -1,13 +1,17 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useLocale } from 'next-intl';
+import { useAuth } from '@/context/AuthContext';
+import { usePathname, useRouter } from '@/i18n/navigation';
+// import { useCart } from '@/context/CartContext';  // Cart hidden — quote flow active
 import { publicApi } from '@/api';
 import { extractApiError } from '@/lib/extractApiError';
 import type { ProductDetail, ProductColor, ProductSku } from '@/types/product.types';
-import { AlertCircle, Copy, Check, ChevronDown, ZoomIn, X, ChevronLeft, ChevronRight, ShoppingCart } from 'lucide-react';
+import { AlertCircle, Copy, Check, ChevronDown, ZoomIn, X, ChevronLeft, ChevronRight, FileText } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { CustomButton } from '@/components/ui/CustomButton';
+import { QuoteOrderSection } from './components/QuoteOrderSection';
 
 const priceFormatter = new Intl.NumberFormat('fr-FR', {
   style: 'currency',
@@ -269,12 +273,20 @@ interface ProductDetailPageProps {
 export function ProductDetailPage({ catalogReference }: ProductDetailPageProps) {
   const locale = useLocale();
   const lang = locale as 'en' | 'fr' | 'de';
+  const { isAuthenticated, user } = useAuth();
+  const router = useRouter();
+  const pathname = usePathname();
 
   const [product, setProduct] = useState<ProductDetail | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedColorIdx, setSelectedColorIdx] = useState<number | null>(null);
   const [selectedSkuId, setSelectedSkuId] = useState<string | null>(null);
+  const [quoteOpen, setQuoteOpen] = useState(false);
+  // const { addToCart, setIsCartOpen } = useCart();  // Cart hidden — quote flow active
+  // const [added, setAdded] = useState(false);
+
+  const quoteRef = useRef<HTMLDivElement>(null);
 
   const autoSelectSku = useCallback((skus: ProductSku[]) => {
     const available = sortSkus(skus.filter((s) => !s.isDiscontinued));
@@ -285,6 +297,15 @@ export function ProductDetailPage({ catalogReference }: ProductDetailPageProps) 
     setSelectedColorIdx(idx);
     autoSelectSku(colors[idx].skus);
   }, [autoSelectSku]);
+
+  const handleRequestQuote = () => {
+    if (!isAuthenticated) {
+      // Redirect to login, preserving the current URL as redirect target
+      router.push(`/login?redirect=${encodeURIComponent(pathname)}`);
+      return;
+    }
+    setQuoteOpen(true);
+  };
 
   useEffect(() => {
     let cancelled = false;
@@ -343,7 +364,7 @@ export function ProductDetailPage({ catalogReference }: ProductDetailPageProps) 
 
   const selectedColor: ProductColor | undefined = selectedColorIdx !== null ? product.colors[selectedColorIdx] : undefined;
   const skus = selectedColor ? sortSkus(selectedColor.skus) : [];
-  const canAddToCart = selectedColorIdx !== null && selectedSkuId !== null;
+  // const canAddToCart = selectedColorIdx !== null && selectedSkuId !== null;  // Cart hidden
 
   return (
     <div className="bg-white min-h-screen">
@@ -550,23 +571,31 @@ export function ProductDetailPage({ catalogReference }: ProductDetailPageProps) 
                 </div>
               </div>
             )}
-            {/* Add to cart */}
+            {/* Request a Quote button */}
             <div className="pt-2">
               <CustomButton
                 bgHover="#3C4EA1"
                 textHover="white"
-                disabled={!canAddToCart}
-                className={`w-full border-brand-blue font-semibold text-sm py-3 transition-opacity ${
-                  canAddToCart ? 'text-brand-blue' : 'text-gray-400 border-gray-200 opacity-60 cursor-not-allowed'
-                }`}
+                onClick={handleRequestQuote}
+                className="w-full border-brand-blue font-semibold text-sm py-3 transition-all text-brand-blue"
               >
                 <span className="flex items-center justify-center gap-2">
-                  <ShoppingCart className="h-4 w-4" />
-                  {canAddToCart ? 'Add to cart' : selectedColorIdx === null ? 'Select a color' : 'Select a size'}
+                  <FileText className="h-4 w-4" />
+                  Request a Quote
                 </span>
               </CustomButton>
             </div>
           </div>
+        </div>
+
+        {/* Quote order section — expands below product info */}
+        <div ref={quoteRef}>
+          <QuoteOrderSection
+            product={product}
+            open={quoteOpen}
+            onClose={() => setQuoteOpen(false)}
+            userEmail={user?.email}
+          />
         </div>
       </div>
     </div>

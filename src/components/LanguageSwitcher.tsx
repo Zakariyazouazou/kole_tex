@@ -6,12 +6,14 @@ import { Globe, ChevronDown } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 
 const localeNames: Record<string, string> = {
+  nl: 'Nederlands',
   en: 'English',
   fr: 'Français',
   de: 'Deutsch',
 };
 
 const localeFlags: Record<string, string> = {
+  nl: '🇳🇱',
   en: '🇬🇧',
   fr: '🇫🇷',
   de: '🇩🇪',

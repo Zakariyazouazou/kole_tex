@@ -14,12 +14,22 @@ export const API_ENDPOINTS = {
     PROFILE: '/users/me',
     EMAIL: '/users/me/email',
     PASSWORD: '/users/me/password',
+    LANGUAGE: '/users/me/language',
   },
 
   // ─── User addresses ──────────────────────────────────────────────────────
   ADDRESSES: {
     LIST: '/addresses',
     BY_ID: (id: string) => `/addresses/${id}`,
+  },
+
+  // ─── Cart (Protected) ───────────────────────────────────────────────────
+  CART: {
+    GET: '/cart',
+    CLEAR: '/cart',
+    ITEMS: '/cart/items',
+    ITEM: (skuId: string) => `/cart/items/${skuId}`,
+    MERGE: '/cart/merge',
   },
 
   // ─── Public products ─────────────────────────────────────────────────────
@@ -32,6 +42,13 @@ export const API_ENDPOINTS = {
 
   // ─── Public categories ───────────────────────────────────────────────────
   CATEGORIES: '/categories',
+
+  // ─── Quotes (User) ───────────────────────────────────────────────────────────
+  QUOTES: {
+    MY: '/quotes/my',
+    MY_BY_ID: (id: string) => `/quotes/my/${id}`,
+    CREATE: '/quotes',
+  },
 
   // ─── Admin ───────────────────────────────────────────────────────────────
   ADMIN: {
@@ -48,6 +65,13 @@ export const API_ENDPOINTS = {
       FORWARD: (id: string) => `/orders/admin/${id}/forward`,
       TOPTEX_STATUS: (id: string) => `/orders/admin/${id}/toptex`,
       TOPTEX_ALL: '/orders/admin/toptex',
+    },
+
+    QUOTES: {
+      ALL: '/quotes/admin/all',
+      BY_ID: (id: string) => `/quotes/admin/${id}`,
+      STATUS: (id: string) => `/quotes/admin/${id}/status`,
+      NOTE: (id: string) => `/quotes/admin/${id}/note`,
     },
 
     ADDRESSES: {
@@ -75,10 +99,9 @@ export const API_ENDPOINTS = {
     SYNC: {
       STATUS: '/sync/status',
       SYNC_STATUS: '/sync/sync-status',
-      FULL: '/sync/full',
-      INCREMENTAL: '/sync/incremental',
-      DELETED: '/sync/deleted',
+      HARD_UPSERT: '/sync/hard-upsert',
       LOGS: '/sync/logs',
+      LOG_BY_ID: (id: string) => `/sync/logs/${id}`,
     },
   },
 } as const;

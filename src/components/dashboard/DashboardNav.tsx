@@ -7,6 +7,7 @@ import {
   Package, 
   Settings, 
   HelpCircle,
+  FileText,
   ChevronRight
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -23,11 +24,17 @@ export function DashboardNav() {
       active: pathname === '/dashboard',
     },
     {
-      label: t('orders'),
-      href: '/dashboard/orders',
-      icon: Package,
-      active: pathname.includes('/dashboard/orders'),
+      label: 'My Quotes',
+      href: '/dashboard/quotes',
+      icon: FileText,
+      active: pathname.includes('/dashboard/quotes'),
     },
+    // {
+    //   label: t('orders'),
+    //   href: '/dashboard/orders',
+    //   icon: Package,
+    //   active: pathname.includes('/dashboard/orders'),
+    // },
     {
       label: t('accountSettings'),
       href: '/dashboard/settings',

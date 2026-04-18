@@ -16,17 +16,25 @@ export function ProductCard({ product }: ProductCardProps) {
   const { addToCart } = useCart();
   const t = useTranslations('products');
   const [hovered, setHovered] = useState(false);
+  const [isAdding, setIsAdding] = useState(false);
 
-  const handleAddToCart = (e: React.MouseEvent) => {
+  const handleAddToCart = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    addToCart({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      quantity: 1,
-      image: product.image,
-    });
+    if (isAdding) return;
+    
+    setIsAdding(true);
+    try {
+      await addToCart({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        quantity: 1,
+        image: product.image,
+      });
+    } finally {
+      setIsAdding(false);
+    }
   };
 
   const discount = product.originalPrice

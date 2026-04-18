@@ -10,11 +10,15 @@ import type {
   AdminReview,
   AdminUser,
   DashboardStats,
+  HardUpsertResponse,
   OrderStatus,
   PaginatedResponse,
-  SyncLog,
-  SyncStatusResponse,
+  SyncLogDetail,
+  SyncLogsResponse,
+  SyncOverallStatus,
+  ToptexConnectionStatus,
 } from '@/lib/admin-api';
+import type { QuoteListResponse, QuoteRequest, QuoteStatus } from '@/types/quote.types';
 
 // ─── Dashboard ─────────────────────────────────────────────────────────────
 
@@ -23,10 +27,21 @@ export const getDashboardStats = () =>
 
 // ─── Users ─────────────────────────────────────────────────────────────────
 
-export const getUsers = (page = 1, limit = 20) =>
-  apiClient
-    .get<PaginatedResponse<AdminUser>>(`${API_ENDPOINTS.ADMIN.USERS.LIST}?page=${page}&limit=${limit}`)
-    .then((r) => r.data);
+export const getUsers = (page = 1, limit = 20, search?: string) => {
+  const params = new URLSearchParams({ page: String(page), limit: String(limit) });
+  if (search) params.set('search', search);
+  return apiClient
+    .get<{ users: AdminUser[]; total: number; page: number; limit: number }>(
+      `${API_ENDPOINTS.ADMIN.USERS.LIST}?${params}`
+    )
+    .then((r) => ({
+      data: r.data.users,
+      total: r.data.total,
+      page: r.data.page,
+      limit: r.data.limit,
+      totalPages: Math.ceil(r.data.total / r.data.limit),
+    }));
+};
 
 export const getUserById = (id: string) =>
   apiClient.get<AdminUser>(API_ENDPOINTS.ADMIN.USERS.BY_ID(id)).then((r) => r.data);
@@ -181,30 +196,62 @@ export const getCategories = () =>
 
 // ─── Sync ──────────────────────────────────────────────────────────────────
 
-export const getSyncStatus = () =>
-  apiClient.get<SyncStatusResponse>(API_ENDPOINTS.ADMIN.SYNC.STATUS).then((r) => r.data);
+/** GET /sync/status — public endpoint, no auth needed */
+export const getToptexConnectionStatus = () =>
+  apiClient.get<ToptexConnectionStatus>(API_ENDPOINTS.ADMIN.SYNC.STATUS).then((r) => r.data);
 
-export const getLastSyncStatus = () =>
+/** GET /sync/sync-status — returns last run summary for each sync type */
+export const getSyncOverallStatus = () =>
+  apiClient.get<SyncOverallStatus>(API_ENDPOINTS.ADMIN.SYNC.SYNC_STATUS).then((r) => r.data);
+
+/** POST /sync/hard-upsert — trigger full hard upsert; returns syncLogId */
+export const triggerHardUpsert = (startPage = 1) =>
   apiClient
-    .get<SyncStatusResponse>(API_ENDPOINTS.ADMIN.SYNC.SYNC_STATUS)
+    .post<HardUpsertResponse>(`${API_ENDPOINTS.ADMIN.SYNC.HARD_UPSERT}?startPage=${startPage}`)
     .then((r) => r.data);
 
-export const triggerFullSync = () =>
+/** GET /sync/logs — paginated history of all sync runs */
+export const getSyncLogs = (
+  page = 1,
+  limit = 20,
+  type?: 'upsert' | 'deleted' | 'hard-upsert',
+  status?: 'running' | 'success' | 'failed'
+) => {
+  const params = new URLSearchParams({ page: String(page), limit: String(limit) });
+  if (type) params.set('type', type);
+  if (status) params.set('status', status);
+  return apiClient
+    .get<SyncLogsResponse>(`${API_ENDPOINTS.ADMIN.SYNC.LOGS}?${params}`)
+    .then((r) => r.data);
+};
+
+/** GET /sync/logs/:id — single run detail / live progress tracking */
+export const getSyncLogById = (id: string) =>
   apiClient
-    .post<{ message: string }>(API_ENDPOINTS.ADMIN.SYNC.FULL)
+    .get<SyncLogDetail>(API_ENDPOINTS.ADMIN.SYNC.LOG_BY_ID(id))
     .then((r) => r.data);
 
-export const triggerIncrementalSync = (modifiedSince: string) =>
+// ─── Admin Quotes ───────────────────────────────────────────────────────────
+
+export const getAdminQuotes = (page = 1, limit = 20, status?: QuoteStatus) => {
+  const params = new URLSearchParams({ page: String(page), limit: String(limit) });
+  if (status) params.set('status', status);
+  return apiClient
+    .get<QuoteListResponse>(`${API_ENDPOINTS.ADMIN.QUOTES.ALL}?${params}`)
+    .then((r) => r.data);
+};
+
+export const getAdminQuoteById = (id: string) =>
   apiClient
-    .post<{ message: string }>(API_ENDPOINTS.ADMIN.SYNC.INCREMENTAL, { modifiedSince })
+    .get<QuoteRequest>(API_ENDPOINTS.ADMIN.QUOTES.BY_ID(id))
     .then((r) => r.data);
 
-export const triggerDeletedSync = (deletedSince: string) =>
+export const updateAdminQuoteStatus = (id: string, status: QuoteStatus) =>
   apiClient
-    .post<{ message: string }>(API_ENDPOINTS.ADMIN.SYNC.DELETED, { deletedSince })
+    .patch<QuoteRequest>(API_ENDPOINTS.ADMIN.QUOTES.STATUS(id), { status })
     .then((r) => r.data);
 
-export const getSyncLogs = (page = 1, limit = 20) =>
+export const updateAdminQuoteNote = (id: string, adminNote: string) =>
   apiClient
-    .get<PaginatedResponse<SyncLog>>(`${API_ENDPOINTS.ADMIN.SYNC.LOGS}?page=${page}&limit=${limit}`)
+    .patch<QuoteRequest>(API_ENDPOINTS.ADMIN.QUOTES.NOTE(id), { adminNote })
     .then((r) => r.data);

@@ -39,7 +39,7 @@ export function AccountDropdown() {
           <>
             {/* User Header */}
             <div className="px-3 py-2 mb-1 border-b border-gray-100">
-              <p className="text-sm font-semibold text-gray-900 truncate">{user?.name}</p>
+              <p className="text-sm font-semibold text-gray-900 truncate">{user?.firstName}</p>
               <p className="text-xs text-gray-500 truncate mt-0.5">{user?.email}</p>
             </div>
 
@@ -54,15 +54,25 @@ export function AccountDropdown() {
                 {t('dashboard')}
               </Link>
 
-              {/* New: My Orders */}
+              {/* My Quote Requests */}
               <Link
+                href="/dashboard/quotes"
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-2.5 rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-brand-blue transition-colors"
+              >
+                <Package className="h-4 w-4 text-gray-400" />
+                My Quotes
+              </Link>
+
+              {/* Orders link hidden while quote system is active */}
+              {/* <Link
                 href="/dashboard/orders"
                 onClick={() => setOpen(false)}
                 className="flex items-center gap-2.5 rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-brand-blue transition-colors"
               >
                 <Package className="h-4 w-4 text-gray-400" />
                 orders
-              </Link>
+              </Link> */}
 
               {/* New: Wishlist */}
               <Link

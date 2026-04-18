@@ -1,15 +1,14 @@
-'use client';
+"use client";
 
-import { useTranslations } from 'next-intl';
-import { useApp } from '@/context/AppContext';
-import { ProductCard } from '@/components/ProductCard';
-import type { Product } from '@/lib/products';
-import { Star, Minus, Plus, Check, Truck, RotateCcw } from 'lucide-react';
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { CustomButton } from '@/components/ui/CustomButton';
-
+import { useTranslations } from "next-intl";
+import { useCart } from "@/context/CartContext";
+import { ProductCard } from "@/components/ProductCard";
+import type { Product } from "@/lib/products";
+import { Star, Minus, Plus, Check, Truck, RotateCcw } from "lucide-react";
+import { useState } from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { CustomButton } from "@/components/ui/CustomButton";
+import { useRouter } from "next/navigation";
 
 interface Props {
   product: Product;
@@ -17,32 +16,50 @@ interface Props {
 }
 
 export function ProductDetailClient({ product, relatedProducts }: Props) {
-  const t = useTranslations('product');
-  const { addToCart } = useApp();
+  const t = useTranslations("product");
+  const router = useRouter();
+  const { addToCart } = useCart();
   const [selectedImage, setSelectedImage] = useState(0);
-  const [selectedSize, setSelectedSize] = useState(product.variants.sizes?.[0] || '');
-  const [selectedColor, setSelectedColor] = useState(product.variants.colors?.[0] || '');
+  const [selectedSize, setSelectedSize] = useState(
+    product.variants.sizes?.[0] || "",
+  );
+  const [selectedColor, setSelectedColor] = useState(
+    product.variants.colors?.[0] || "",
+  );
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
+  const [isAdding, setIsAdding] = useState(false);
 
   const allImages = [product.image, ...product.images];
 
-  const handleAddToCart = () => {
-    const variant = [selectedSize, selectedColor].filter(Boolean).join(' / ') || undefined;
-    addToCart({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      quantity,
-      image: product.image,
-      variant,
-    });
-    setAdded(true);
-    setTimeout(() => setAdded(false), 2000);
+  const handleAddToCart = async () => {
+    // console.log("add to cart");
+    // router.refresh();
+    if (isAdding) return;
+    setIsAdding(true);
+    try {
+      const variant = [selectedSize, selectedColor].filter(Boolean).join(' / ') || undefined;
+      await addToCart({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        quantity,
+        image: product.image,
+        variant,
+      });
+      setAdded(true);
+      // setTimeout(() => setAdded(false), 2000);
+      // refrech the page
+
+    } finally {
+      setIsAdding(false);
+    }
   };
 
   const discount = product.originalPrice
-    ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
+    ? Math.round(
+        ((product.originalPrice - product.price) / product.originalPrice) * 100,
+      )
     : 0;
 
   return (
@@ -65,11 +82,15 @@ export function ProductDetailClient({ product, relatedProducts }: Props) {
                   onClick={() => setSelectedImage(i)}
                   className={`aspect-square rounded-lg overflow-hidden border-2 transition-all cursor-pointer ${
                     selectedImage === i
-                      ? 'border-brand-blue shadow-sm'
-                      : 'border-transparent hover:border-gray-200'
+                      ? "border-brand-blue shadow-sm"
+                      : "border-transparent hover:border-gray-200"
                   }`}
                 >
-                  <img src={img} alt="" className="h-full w-full object-cover" />
+                  <img
+                    src={img}
+                    alt=""
+                    className="h-full w-full object-cover"
+                  />
                 </button>
               ))}
             </div>
@@ -82,7 +103,9 @@ export function ProductDetailClient({ product, relatedProducts }: Props) {
                 {product.badge}
               </span>
             )}
-            <h1 className="text-2xl md:text-3xl font-bold text-gray-900">{product.name}</h1>
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
+              {product.name}
+            </h1>
 
             {/* Rating */}
             <div className="flex items-center gap-2 mt-3">
@@ -92,14 +115,15 @@ export function ProductDetailClient({ product, relatedProducts }: Props) {
                     key={i}
                     className={`h-4 w-4 ${
                       i < Math.floor(product.rating)
-                        ? 'fill-amber-400 text-amber-400'
-                        : 'text-gray-200'
+                        ? "fill-amber-400 text-amber-400"
+                        : "text-gray-200"
                     }`}
                   />
                 ))}
               </div>
               <span className="text-sm text-gray-500">
-                {product.rating} ({product.reviewCount} {t('reviews').toLowerCase()})
+                {product.rating} ({product.reviewCount}{" "}
+                {t("reviews").toLowerCase()})
               </span>
             </div>
 
@@ -123,25 +147,27 @@ export function ProductDetailClient({ product, relatedProducts }: Props) {
             {/* Stock */}
             <p
               className={`mt-3 flex items-center gap-1.5 text-sm font-medium ${
-                product.inStock ? 'text-green-600' : 'text-red-500'
+                product.inStock ? "text-green-600" : "text-red-500"
               }`}
             >
               <span
                 className={`h-2 w-2 rounded-full ${
-                  product.inStock ? 'bg-green-500' : 'bg-red-500'
+                  product.inStock ? "bg-green-500" : "bg-red-500"
                 }`}
               />
               {product.inStock
-                ? t('addToCart') === t('addToCart')
-                  ? 'In Stock'
-                  : ''
-                : 'Out of Stock'}
+                ? t("addToCart") === t("addToCart")
+                  ? "In Stock"
+                  : ""
+                : "Out of Stock"}
             </p>
 
             {/* Variants */}
             {product.variants.colors && product.variants.colors.length > 0 && (
               <div className="mt-6">
-                <h3 className="text-sm font-semibold text-gray-900 mb-2">{t('color')}</h3>
+                <h3 className="text-sm font-semibold text-gray-900 mb-2">
+                  {t("color")}
+                </h3>
                 <div className="flex flex-wrap gap-2">
                   {product.variants.colors.map((color) => (
                     <button
@@ -149,8 +175,8 @@ export function ProductDetailClient({ product, relatedProducts }: Props) {
                       onClick={() => setSelectedColor(color)}
                       className={`rounded-lg border px-4 py-2 text-sm transition-all cursor-pointer ${
                         selectedColor === color
-                          ? 'border-brand-blue bg-brand-blue-light text-brand-blue font-medium'
-                          : 'border-gray-200 text-gray-600 hover:border-gray-300'
+                          ? "border-brand-blue bg-brand-blue-light text-brand-blue font-medium"
+                          : "border-gray-200 text-gray-600 hover:border-gray-300"
                       }`}
                     >
                       {color}
@@ -162,7 +188,9 @@ export function ProductDetailClient({ product, relatedProducts }: Props) {
 
             {product.variants.sizes && product.variants.sizes.length > 0 && (
               <div className="mt-4">
-                <h3 className="text-sm font-semibold text-gray-900 mb-2">{t('size')}</h3>
+                <h3 className="text-sm font-semibold text-gray-900 mb-2">
+                  {t("size")}
+                </h3>
                 <div className="flex flex-wrap gap-2">
                   {product.variants.sizes.map((size) => (
                     <button
@@ -170,8 +198,8 @@ export function ProductDetailClient({ product, relatedProducts }: Props) {
                       onClick={() => setSelectedSize(size)}
                       className={`rounded-lg border px-4 py-2 text-sm transition-all cursor-pointer ${
                         selectedSize === size
-                          ? 'border-brand-blue bg-brand-blue-light text-brand-blue font-medium'
-                          : 'border-gray-200 text-gray-600 hover:border-gray-300'
+                          ? "border-brand-blue bg-brand-blue-light text-brand-blue font-medium"
+                          : "border-gray-200 text-gray-600 hover:border-gray-300"
                       }`}
                     >
                       {size}
@@ -202,36 +230,38 @@ export function ProductDetailClient({ product, relatedProducts }: Props) {
               </div>
               <CustomButton
                 onClick={handleAddToCart}
-                disabled={!product.inStock}
+                disabled={!product.inStock || isAdding}
+
                 className={`flex-1 py-6 text-base rounded-lg border-none ${
                   added
-                    ? 'bg-green-600'
-                    : 'bg-brand-blue'
+                    ? "bg-green-600"
+                    : isAdding
+                      ? "bg-gray-400"
+                      : "bg-brand-blue"
                 }`}
-                bgHover={added ? '#15803d' : '#2d3a7a'}
+                bgHover={added ? "#15803d" : "#2d3a7a"}
                 textHover="white"
               >
                 {added ? (
                   <span className="flex items-center justify-center gap-2">
                     <Check className="h-5 w-5" />
-                    {t('addedToCart')}
+                    {t("addedToCart")}
                   </span>
                 ) : (
-                  t('addToCart')
+                  t("addToCart")
                 )}
               </CustomButton>
-
             </div>
 
             {/* Delivery Info */}
             <div className="mt-6 space-y-2">
               <p className="flex items-center gap-2 text-sm text-gray-500">
                 <Truck className="h-4 w-4 text-brand-blue" />
-                {t('deliveryInfo')}
+                {t("deliveryInfo")}
               </p>
               <p className="flex items-center gap-2 text-sm text-gray-500">
                 <RotateCcw className="h-4 w-4 text-brand-blue" />
-                {t('returnPolicy')}
+                {t("returnPolicy")}
               </p>
             </div>
           </div>
@@ -245,23 +275,25 @@ export function ProductDetailClient({ product, relatedProducts }: Props) {
                 value="description"
                 className="rounded-none border-b-2 border-transparent data-[state=active]:border-brand-blue data-[state=active]:text-brand-blue data-[state=active]:shadow-none px-6 py-3 cursor-pointer"
               >
-                {t('description')}
+                {t("description")}
               </TabsTrigger>
               <TabsTrigger
                 value="specifications"
                 className="rounded-none border-b-2 border-transparent data-[state=active]:border-brand-blue data-[state=active]:text-brand-blue data-[state=active]:shadow-none px-6 py-3 cursor-pointer"
               >
-                {t('specifications')}
+                {t("specifications")}
               </TabsTrigger>
               <TabsTrigger
                 value="reviews"
                 className="rounded-none border-b-2 border-transparent data-[state=active]:border-brand-blue data-[state=active]:text-brand-blue data-[state=active]:shadow-none px-6 py-3 cursor-pointer"
               >
-                {t('reviews')}
+                {t("reviews")}
               </TabsTrigger>
             </TabsList>
             <TabsContent value="description" className="mt-6">
-              <p className="text-gray-600 leading-relaxed max-w-3xl">{product.description}</p>
+              <p className="text-gray-600 leading-relaxed max-w-3xl">
+                {product.description}
+              </p>
             </TabsContent>
             <TabsContent value="specifications" className="mt-6">
               <div className="max-w-2xl">
@@ -270,7 +302,9 @@ export function ProductDetailClient({ product, relatedProducts }: Props) {
                     key={key}
                     className="flex justify-between py-3 border-b border-gray-100 last:border-0"
                   >
-                    <span className="text-sm font-medium text-gray-500">{key}</span>
+                    <span className="text-sm font-medium text-gray-500">
+                      {key}
+                    </span>
                     <span className="text-sm text-gray-900">{value}</span>
                   </div>
                 ))}
@@ -278,7 +312,8 @@ export function ProductDetailClient({ product, relatedProducts }: Props) {
             </TabsContent>
             <TabsContent value="reviews" className="mt-6">
               <p className="text-gray-500 text-sm">
-                {product.reviewCount} reviews — {product.rating}/5 average rating
+                {product.reviewCount} reviews — {product.rating}/5 average
+                rating
               </p>
             </TabsContent>
           </Tabs>
@@ -287,7 +322,9 @@ export function ProductDetailClient({ product, relatedProducts }: Props) {
         {/* Related Products */}
         {relatedProducts.length > 0 && (
           <div className="mt-16">
-            <h2 className="text-2xl font-bold text-gray-900 mb-8">{t('relatedProducts')}</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-8">
+              {t("relatedProducts")}
+            </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {relatedProducts.map((p) => (
                 <ProductCard key={p.id} product={p} />

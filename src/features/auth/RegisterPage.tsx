@@ -4,9 +4,9 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useAuth } from '@/context/AuthContext';
-import { Link } from '@/i18n/navigation';
+import { Link, useRouter } from '@/i18n/navigation';
 import { extractApiError } from '@/lib/extractApiError';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -30,8 +30,15 @@ type FormValues = z.infer<typeof schema>;
 
 export function RegisterPage() {
   const { register: authRegister, googleLogin } = useAuth();
+  const router = useRouter();
+  const [safeRedirect, setSafeRedirect] = useState<string | null>(null);
   const [globalError, setGlobalError] = useState('');
   const [googleError, setGoogleError] = useState('');
+
+  useEffect(() => {
+    const raw = new URLSearchParams(window.location.search).get('redirect') ?? '';
+    setSafeRedirect(raw.startsWith('/') && !raw.startsWith('//') ? raw : null);
+  }, []);
   const [registeredEmail, setRegisteredEmail] = useState<string | null>(null);
 
   const {
@@ -79,7 +86,7 @@ export function RegisterPage() {
                 Verify my email
               </Link>
               <Link
-                href="/login"
+                href={safeRedirect ? `/login?redirect=${encodeURIComponent(safeRedirect)}` : '/login'}
                 className="flex w-full items-center justify-center rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors"
               >
                 Go to sign in
@@ -175,12 +182,18 @@ export function RegisterPage() {
           )}
           <GoogleAuthButton
             onError={setGoogleError}
-            onSuccess={() => {/* googleLogin already sets state, handled by ProtectedRoute */}}
+            onSuccess={(role) => {
+              const destination = safeRedirect || (role === 'ADMIN' ? '/admin/dashboard' : '/dashboard');
+              router.push(destination as never);
+            }}
           />
 
           <p className="mt-6 text-center text-sm text-gray-500">
             Already have an account?{' '}
-            <Link href="/login" className="text-brand-blue font-medium hover:underline">
+            <Link
+              href={safeRedirect ? `/login?redirect=${encodeURIComponent(safeRedirect)}` : '/login'}
+              className="text-brand-blue font-medium hover:underline"
+            >
               Sign in
             </Link>
           </p>

@@ -1,11 +1,17 @@
 import { apiClient } from '../client';
 import { API_ENDPOINTS } from '../endpoints.constants';
-import type { ChangePasswordPayload, MessageResponse, User } from '@/types/auth.types';
+import type { ChangePasswordPayload, MessageResponse, PreferredLanguage, User } from '@/types/auth.types';
 import type {
   Address,
   CreateAddressPayload,
   UpdateAddressPayload,
 } from '@/types/address.types';
+import type {
+  CreateQuotePayload,
+  QuoteListResponse,
+  QuoteRequest,
+  QuoteStatus,
+} from '@/types/quote.types';
 
 export function logout(): Promise<void> {
   return apiClient.post<void>(API_ENDPOINTS.AUTH.LOGOUT).then(() => undefined);
@@ -72,4 +78,39 @@ export function updateMePassword(data: {
   return apiClient
     .patch<void>(API_ENDPOINTS.ME.PASSWORD, data)
     .then(() => undefined);
+}
+
+export function setUserLanguage(preferredLanguage: PreferredLanguage): Promise<User> {
+  return apiClient
+    .patch<User>(API_ENDPOINTS.ME.LANGUAGE, { preferredLanguage })
+    .then((r) => r.data);
+}
+
+// ─── Quotes (User) ────────────────────────────────────────────────────────────
+
+export function getMyQuotes(params?: {
+  status?: QuoteStatus;
+  page?: number;
+  limit?: number;
+}): Promise<QuoteListResponse> {
+  const query = new URLSearchParams();
+  if (params?.status) query.set('status', params.status);
+  if (params?.page) query.set('page', String(params.page));
+  if (params?.limit) query.set('limit', String(params.limit));
+  const qs = query.toString();
+  return apiClient
+    .get<QuoteListResponse>(`${API_ENDPOINTS.QUOTES.MY}${qs ? `?${qs}` : ''}`)
+    .then((r) => r.data);
+}
+
+export function getMyQuoteById(id: string): Promise<QuoteRequest> {
+  return apiClient
+    .get<QuoteRequest>(API_ENDPOINTS.QUOTES.MY_BY_ID(id))
+    .then((r) => r.data);
+}
+
+export function createQuote(data: CreateQuotePayload): Promise<QuoteRequest> {
+  return apiClient
+    .post<QuoteRequest>(API_ENDPOINTS.QUOTES.CREATE, data)
+    .then((r) => r.data);
 }

@@ -2,8 +2,8 @@ import axios, {
   AxiosError,
   AxiosRequestConfig,
   InternalAxiosRequestConfig,
-} from 'axios';
-import qs from 'qs';
+} from "axios";
+import qs from "qs";
 
 // ─── In-memory token store ────────────────────────────────────────────────────
 let accessToken: string | null = null;
@@ -18,10 +18,13 @@ export function getAccessToken(): string | null {
 
 // ─── Axios instance ───────────────────────────────────────────────────────────
 export const apiClient = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4873',
+  baseURL:
+  'https://textile-api.kole.be/'  ,
+    // "http://localhost:4877",
   withCredentials: true,
-  headers: { 'Content-Type': 'application/json' },
-  paramsSerializer: (params) => qs.stringify(params, { arrayFormat: 'brackets' }),
+  headers: { "Content-Type": "application/json" },
+  paramsSerializer: (params) =>
+    qs.stringify(params, { arrayFormat: "brackets" }),
 });
 
 // ─── Request interceptor: attach Bearer token ─────────────────────────────────
@@ -63,7 +66,7 @@ apiClient.interceptors.response.use(
     }
 
     // Skip refresh loop if the failing request IS the refresh endpoint
-    if (originalRequest.url?.includes('/auth/refresh')) {
+    if (originalRequest.url?.includes("/auth/refresh")) {
       return Promise.reject(error);
     }
 
@@ -72,9 +75,8 @@ apiClient.interceptors.response.use(
         pendingQueue.push({ resolve, reject });
       }).then((token) => {
         if (originalRequest.headers) {
-          (originalRequest.headers as Record<string, string>)[
-            'Authorization'
-          ] = `Bearer ${token}`;
+          (originalRequest.headers as Record<string, string>)["Authorization"] =
+            `Bearer ${token}`;
         }
         return apiClient(originalRequest);
       });
@@ -85,25 +87,24 @@ apiClient.interceptors.response.use(
 
     try {
       const { data } = await apiClient.post<{ accessToken: string }>(
-        '/auth/refresh'
+        "/auth/refresh",
       );
       setAccessToken(data.accessToken);
       processQueue(null, data.accessToken);
       if (originalRequest.headers) {
-        (originalRequest.headers as Record<string, string>)[
-          'Authorization'
-        ] = `Bearer ${data.accessToken}`;
+        (originalRequest.headers as Record<string, string>)["Authorization"] =
+          `Bearer ${data.accessToken}`;
       }
       return apiClient(originalRequest);
     } catch (refreshError) {
       processQueue(refreshError, null);
       setAccessToken(null);
-      if (typeof window !== 'undefined') {
-        window.location.href = '/login';
+      if (typeof window !== "undefined") {
+        window.location.href = "/login";
       }
       return Promise.reject(refreshError);
     } finally {
       isRefreshing = false;
     }
-  }
+  },
 );

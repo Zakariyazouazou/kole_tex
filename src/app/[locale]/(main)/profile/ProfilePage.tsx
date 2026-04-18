@@ -11,6 +11,7 @@ import { extractApiError } from '@/lib/extractApiError';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { LanguageSelector } from '@/components/LanguageSelector';
 import {
   AlertCircle,
   CheckCircle,
@@ -404,7 +405,16 @@ export function ProfilePage() {
       {/* Section 3 — Change Password */}
       <ChangePasswordSection />
 
-      {/* Section 4 — Addresses shortcut (CUSTOMER only) */}
+      {/* Section 4 — Language Preference */}
+      <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
+        <h2 className="text-base font-semibold text-gray-900 mb-1">Email Language</h2>
+        <p className="text-sm text-gray-500 mb-6">
+          Choose the language for transactional emails like verification codes, password resets, and order confirmations.
+        </p>
+        <LanguageSelector />
+      </div>
+
+      {/* Section 5 — Addresses shortcut (CUSTOMER only) */}
       {user?.role === 'CUSTOMER' && (
         <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm flex items-center justify-between gap-4">
           <div>
