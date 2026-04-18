@@ -11,8 +11,8 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/api/:path*',
-        destination: `http://localhost:4877/:path*`,
-        //destination: `https://textile-api.kole.be/:path*`,
+        //destination: `http://localhost:4877/:path*`,
+        destination: `https://textile-api.kole.be/:path*`,
         ///destination: `${apiBase}/:path*`,
       },
     ];
